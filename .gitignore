@@ -1,5 +1,6 @@
 # CakePHP specific files #
 ##########################
+/config/app_local.php
 /logs/*
 /tmp/*
 /vendor/*
