@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -50,7 +51,20 @@ class PostsController extends AdminController
     {
         $post = $this->Posts->newEmptyEntity();
         if ($this->request->is('post')) {
-            $post = $this->Posts->patchEntity($post, $this->request->getData());
+
+            $data = $this->request->getData();
+
+            $image = $data['image_path'];
+            $image_path = 'tmp/' . $image->getClientFilename();
+            if (file_exists(WWW_ROOT . 'img/' . $image_path)) {
+                $this->Flash->error(__('ファイルが存在します'));
+                return;
+            }
+            $image->moveto(WWW_ROOT . 'img/' . $image_path);
+
+            $data['image_path'] = $image_path;
+
+            $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
                 $this->Flash->success(__('The post has been saved.'));
 

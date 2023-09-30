@@ -13,13 +13,19 @@
     </aside>
     <div class="column-responsive column-80">
         <div class="posts form content">
-            <?= $this->Form->create($post) ?>
+            <?= $this->Form->create($post, [
+                'type' => 'file'
+            ]) ?>
             <fieldset>
                 <legend><?= __('Add Post') ?></legend>
                 <?php
                     echo $this->Form->control('title');
-                    echo $this->Form->control('body');
-                    echo $this->Form->control('image_path');
+                    echo $this->Form->control('body',[
+                        'type' => 'textarea'
+                    ]);
+                    echo $this->Form->control('image_path',[
+                        'type' => 'file'
+                    ]);
                     echo $this->Form->control('image_flg');
                     echo $this->Form->control('url');
                     echo $this->Form->control('url_flg');

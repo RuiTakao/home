@@ -1,75 +1,159 @@
-/* Home page styles */
-@font-face {
-    font-family: 'cakefont';
-    src: url('../font/cakedingbats-webfont.eot');
-    src: url('../font/cakedingbats-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../font/cakedingbats-webfont.woff2') format('woff2'),
-    url('../font/cakedingbats-webfont.woff') format('woff'),
-    url('../font/cakedingbats-webfont.ttf') format('truetype'),
-    url('../font/cakedingbats-webfont.svg#cake_dingbatsregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-body {
-    padding: 60px 0;
-}
-header {
-    margin-bottom: 60px;
-}
-img {
-    margin-bottom: 30px;
-}
-h1 {
-    font-weight: bold;
-}
-ul {
-    list-style-type: none;
-    margin: 0 0 30px 0;
-    padding-left: 25px;
-}
-a {
-    color: #0071BC;
-    text-decoration: underline;
-}
-hr {
-    border-bottom: 1px solid #e7e7e7;
-    border-top: 0;
-    margin-bottom: 35px;
-}
+/** css初期化 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-.text-center {
+  a {
+    text-decoration: none;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  .container {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  /** ヘッダー */
+  .header {
+    background: #EE8E99;
+    height: 50px;
+    position: fixed;
+    width: 100%;
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+  }
+
+  .header_title {
+    font-size: 24px;
+    color: #fff;
+    font-weight: bold;
+    line-height: 50px;
     text-align: center;
-}
-.links a {
-    margin-right: 10px;
-}
-.release-name {
-    color: #D33C43;
-    font-weight: 400;
-    font-style: italic;
-}
-.bullet:before {
-    font-family: 'cakefont', sans-serif;
-    font-size: 18px;
-    display: inline-block;
-    margin-left: -1.3em;
-    width: 1.2em;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    vertical-align: -1px;
-}
-.success:before {
-    color: #88c671;
-    content: "\0056";
-}
-.problem:before {
-    color: #d33d44;
-    content: "\0057";
-}
-.cake-error {
-    padding: 10px;
-    margin: 10px 0;
-}
-#url-rewriting-warning {
-    display: none;
-}
+  }
+
+  /** メイン */
+  .main {
+    background: #F0DFCF;
+    padding: 50px;
+    min-height: 100vh;
+  }
+
+  /** コンテンツ */
+  .lists {
+    margin-top: 104px;
+  }
+
+  .list {
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  .list:not(:first-child) {
+    margin-top: 80px;
+  }
+
+  .list:nth-child(odd) .list_text {
+    order: 1;
+  }
+
+  .list:nth-child(odd) .list_image {
+    order: 2;
+  }
+
+  .list_image {
+    width: calc(768px / 2 - 16px);
+    max-width: calc(768px / 2 - 16px);
+  }
+
+  .list_image .img {
+    display: block;
+    width: calc(768px / 2 - 16px);
+    max-width: calc(768px / 2 - 16px);
+  }
+
+  .list_text {
+    width: calc(768px / 2 - 16px);
+    max-width: calc(768px / 2 - 16px);
+  }
+
+  .list_title {
+    font-weight: bold;
+  }
+
+  .list_body {
+    font-size: 12px;
+    margin-top: 16px;
+    line-height: 1.6em;
+  }
+
+  .list_link {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: #7CBCF7;
+    font-size: 12px;
+    width: 50%;
+    height: 32px;
+    border-radius: 3px;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px -3px 6px -2px rgba(0, 0, 0, 0.3);
+    outline: none;
+    border: none;
+    border-radius: 16px;
+    font-weight: bold;
+  }
+
+  .list_link:hover {
+    background: #2AA9C9;
+  }
+
+  /** コンテンツのレスポンシブ */
+  @media screen and (max-width:768px) {
+
+    .main {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .lists {
+      margin-top: 80px;
+    }
+
+    .list {
+      display: block;
+    }
+
+    .list:not(:first-child) {
+      margin-top: 104px;
+    }
+
+    .list_image {
+      margin: 0 auto;
+      width: 90%;
+    }
+
+    .list_image .img {
+      width: 100%;
+    }
+
+    .list_text {
+      margin: 0 auto;
+      margin-top: 16px;
+      width: 90%;
+    }
+
+    .list_link {
+      margin-top: 16px;
+      font-size: 16px;
+      height: 40px;
+      width: 100%;
+      border-radius: 20px;
+    }
+  }
