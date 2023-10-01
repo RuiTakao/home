@@ -6,8 +6,9 @@
  */
 $this->Form->setTemplates([
     'inputContainer' => '{{content}}'
-])
+]);
 ?>
+<?= $this->Html->script('/assets/js/dropify.js', ['defer']) ?>
 <div class="lists">
     <div class="list list_add" style="display:block;">
         <?= $this->Form->create($post, [
@@ -16,7 +17,7 @@ $this->Form->setTemplates([
         <ul class="form_lists">
             <li class="form_list">
                 <div class="form_list_title">
-                    <label for="title">作品名：</label>
+                    <label for="title">作品名</label>
                 </div>
                 <div class="form_list_input">
                     <?= $this->Form->control('title', [
@@ -28,7 +29,7 @@ $this->Form->setTemplates([
             </li>
             <li class="form_list">
                 <div class="form_list_title">
-                    <label for="body">説明：</label>
+                    <label for="body">説明</label>
                 </div>
                 <div class="form_list_input">
                     <?= $this->Form->control('body', [
@@ -41,9 +42,9 @@ $this->Form->setTemplates([
             </li>
             <li class="form_list">
                 <div class="form_list_title">
-                    <label for="status">ステータス：</label>
+                    <label for="status">ステータス</label>
                 </div>
-                <div class="form_list_input">
+                <div class="form_list_input form_list_radio">
                     <?= $this->Form->radio('status', [
                         ['value' => 1, 'text' => '表示'],
                         ['value' => 0, 'text' => '非表示']
@@ -52,7 +53,7 @@ $this->Form->setTemplates([
             </li>
             <li class="form_list">
                 <div class="form_list_title">
-                    <label for="url">URL：</label>
+                    <label for="url">ＵＲＬ</label>
                 </div>
                 <div class="form_list_input">
                     <?= $this->Form->control('url', [
@@ -60,14 +61,16 @@ $this->Form->setTemplates([
                         'label' => false,
                         'required' => false
                     ]) ?>
-                    <?= $this->Form->checkbox('url_flg', [
-                        'id' => 'url_flg'
-                    ]) ?><label for="url_flg">なし</label>
+                    <div class="form_list_checkbox">
+                        <?= $this->Form->checkbox('url_flg', [
+                            'id' => 'url_flg'
+                        ]) ?><label for="url_flg">なし</label>
+                    </div>
                 </div>
             </li>
             <li class="form_list">
                 <div class="form_list_title">
-                    <label for="url">画像名：</label>
+                    <label for="url">画像名</label>
                 </div>
                 <div class="form_list_input">
                     <?= $this->Form->control('image_name', [
@@ -75,10 +78,13 @@ $this->Form->setTemplates([
                         'label' => false,
                         'required' => false
                     ]) ?>
-                    <?= $this->Form->checkbox('image_flg', [
-                        'id' => 'image_flg'
-                    ]) ?><label for="image_flg">なし</label>
+                    <div class="form_list_checkbox">
+                        <?= $this->Form->checkbox('image_flg', [
+                            'id' => 'image_flg'
+                        ]) ?><label for="image_flg">なし</label>
+                    </div>
                     <?= $this->Form->control('image_path', [
+                        'class' => 'dropify',
                         'type' => 'file',
                         'label' => false,
                         'required' => false
@@ -86,7 +92,7 @@ $this->Form->setTemplates([
                 </div>
             </li>
         </ul>
-        <?= $this->Form->button(__('Submit')) ?>
+        <?= $this->Form->button('登録する') ?>
         <?= $this->Form->end() ?>
     </div>
 </div>
