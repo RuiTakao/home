@@ -36,12 +36,21 @@
     text-align: center;
   }
 
+   /** ヘッダー　管理画面用 */
+  .admin_header {
+    height: 100px;
+  }
+
   /** メイン */
   .main {
     background: #F0DFCF;
     padding: 50px;
     min-height: 100vh;
   }
+
+.admin_main {
+  padding: 100px;
+}
 
   /** コンテンツ */
   .lists {
