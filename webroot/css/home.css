@@ -1,281 +1,66 @@
-/** css初期化 */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/*********************************
+	プロダクトリスト
+*********************************/
+.product_content_list {
+  padding-top: 104px;
 }
 
-a {
-  text-decoration: none;
-}
+/*********************************
+	プロダクト
+*********************************/
 
-li {
-  list-style: none;
-}
-
-.container {
-  max-width: 768px;
-  margin: 0 auto;
-}
-
-/** ヘッダー */
-.header {
-  background: #EE8E99;
-  height: 50px;
-  position: fixed;
-  width: 100%;
-  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.2);
-  z-index: 3;
-}
-
-.header_title {
-  font-size: 24px;
-  color: #fff;
-  font-weight: bold;
-  line-height: 50px;
-  text-align: center;
-}
-
-/** ヘッダー　管理画面用 */
-.admin_header {
-  height: 100px;
-}
-
-/** メイン */
-.main {
-  background: #F0DFCF;
-  padding: 50px;
-  min-height: 100vh;
-}
-
-.admin_main {
-  padding: 100px;
-}
-
-/** コンテンツ */
-.lists {
-  margin-top: 104px;
-}
-
-.list {
-  display: flex;
-  justify-content: space-between;
-  gap: 32px;
-}
-
-.list:not(:first-child) {
+/* プロダクト間の上下のmargin */
+.product_content:not(:first-child) {
   margin-top: 80px;
 }
 
-.list:nth-child(odd) .list_text {
-  order: 1;
-}
+/*********************************
+	プロダクト画像
+*********************************/
 
-.list:nth-child(odd) .list_image {
+/* プロダクトを交互に入れ替え */
+.product_image_content:nth-child(odd) {
   order: 2;
 }
 
-.list_image {
-  width: calc(768px / 2 - 16px);
-  max-width: calc(768px / 2 - 16px);
-}
-
-.list_image .img {
+/* プロダクトの画像 */
+.product_image {
   display: block;
-  width: calc(768px / 2 - 16px);
-  max-width: calc(768px / 2 - 16px);
+  width: 368px;
+  max-width: 368px;
 }
 
-.list_text {
-  width: calc(768px / 2 - 16px);
-  max-width: calc(768px / 2 - 16px);
+@media screen and (max-width:768px) {
+
+  .product_image {
+    width: 100%;
+  }
 }
 
-.list_title {
+/*********************************
+	プロダクト詳細
+*********************************/
+
+/* プロダクトのタイトル */
+.product_title {
   font-weight: bold;
 }
 
-.list_body {
+/* プロダクトの本文 */
+.product_body {
   font-size: 12px;
-  margin-top: 16px;
   line-height: 1.6em;
 }
 
-.list_link {
-  margin-top: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  background: #7CBCF7;
-  font-size: 12px;
+/* プロダクトのリンク先 */
+.product_access_link {
   width: 50%;
-  height: 32px;
-  border-radius: 3px;
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px -3px 6px -2px rgba(0, 0, 0, 0.3);
-  outline: none;
-  border: none;
-  border-radius: 16px;
-  font-weight: bold;
 }
 
-.list_link:hover {
-  background: #2AA9C9;
-}
-
-/** コンテンツのレスポンシブ */
 @media screen and (max-width:768px) {
 
-  .main {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .lists {
-    margin-top: 80px;
-  }
-
-  .list {
-    display: block;
-  }
-
-  .list:not(:first-child) {
-    margin-top: 104px;
-  }
-
-  .list_image {
-    margin: 0 auto;
-    width: 90%;
-  }
-
-  .list_image .img {
-    width: 100%;
-  }
-
-  .list_text {
-    margin: 0 auto;
+  .product_access_link {
     margin-top: 16px;
-    width: 90%;
-  }
-
-  .list_link {
-    margin-top: 16px;
-    font-size: 16px;
-    height: 40px;
     width: 100%;
-    border-radius: 20px;
   }
-}
-
-.list_sub_title {
-  font-size: 12px;
-  line-height: 2em;
-}
-
-.list_sub_title .weight {
-  font-weight: bold;
-}
-
-.mt16 {
-  margin-top: 16px;
-}
-
-.mt8 {
-  margin-top: 8px;
-}
-
-.list_add {
-  background: #fff;
-  padding: 16px;
-  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.35);
-}
-
-.list_add_image .img {
-  border: 1px solid #000;
-}
-
-.list_add_status {
-  font-size: 12px;
-  margin-left: 8px;
-  border: 1px solid transparent;
-  padding: 2px 4px;
-  border-radius: 4px;
-}
-
-.status_true {
-  border: 1px solid #198754;
-  color: #198754;
-}
-
-.list_add_link {
-  width: 100%;
-  background: #D33C43;
-}
-
-.list_add_link:hover {
-  background: #6C757D;
-}
-
-.form_list {
-  display: flex;
-}
-
-.form_list:not(:first-child) {
-    margin-top: 32px;
-}
-
-.form_list_title {
-  width: 15%;
-  padding-top: 4px;
-}
-
-.form_list_title label {
-    display: block;
-    font-weight: bold;
-    width: 75%;
-    text-align:justify;
-    text-align-last:justify;
-    position: relative;
-    font-size: 12px;
-}
-
-.form_list_title label::after {
-    content: '：';
-    position: absolute;
-    right: -16px;
-}
-
-.form_list_input {
-  width: 80%;
-}
-
-.form_list_input input[type=text],
-.form_list_input textarea
-{
-    width: 100%;
-}
-
-.form_list_input input[type=text] {
-    height: 32px;
-}
-
-.form_list_radio label {
-    cursor: pointer;
-}
-
-.form_list_radio label:not(:last-child) {
-    margin-right: 16px;
-}
-
-.form_list_radio label input {
-    margin-right: 4px;
-    cursor: pointer;
-}
-
-.form_list_checkbox {
-    margin-top: 8px;
-}
-
-.form_list_checkbox input[type=checkbox] {
-    margin-right: 4px;
 }

@@ -1,0 +1,20 @@
+/*********************************
+	メイン
+*********************************/
+.main {
+    background: #F0DFCF;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 768px;
+    margin: 0 auto;
+}
+
+/** メインのレスポンシブ */
+@media screen and (max-width:768px) {
+    .main {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}

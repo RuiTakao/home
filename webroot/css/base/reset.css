@@ -1,0 +1,30 @@
+/*********************************
+	css初期化
+*********************************/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 12px;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+/*********************************
+	form
+*********************************/
+input[type=text],
+textarea {
+  border: 2px solid #8c8c8c;
+  border-radius: 4px;
+  background: #fafafa;
+}

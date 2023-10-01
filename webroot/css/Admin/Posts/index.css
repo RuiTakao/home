@@ -1,0 +1,80 @@
+/*********************************
+	ユーティリティ
+*********************************/
+.name {
+    display: inline-block;
+    width: 40px;
+    text-align:justify;
+    text-align-last:justify;
+}
+
+.mr {
+    margin-right: 8px;
+}
+
+/*********************************
+	プロダクトリスト
+*********************************/
+.product_content_list {
+    padding-top: 154px;
+}
+
+/*********************************
+    プロダクト
+*********************************/
+
+/* プロダクト間の上下のmargin */
+.product_content:not(:first-child) {
+    margin-top: 80px;
+}
+
+/*********************************
+    プロダクト画像
+*********************************/
+
+.product_image_content {
+    order: 2;
+}
+
+/* プロダクトの画像 */
+.product_image {
+    display: block;
+    width: 368px;
+    max-width: 368px;
+    border: 1px solid #8c8c8c;
+}
+
+@media screen and (max-width:768px) {
+
+    .product_image {
+        width: 100%;
+    }
+}
+
+/*********************************
+      プロダクト詳細
+*********************************/
+
+/* プロダクトのタイトル */
+.product_title {
+    font-weight: bold;
+}
+
+/* プロダクトの本文 */
+.product_body {
+    font-size: 12px;
+    line-height: 1.6em;
+}
+
+/* プロダクトのリンク先 */
+.product_edit_link {
+    width: 50%;
+}
+
+@media screen and (max-width:768px) {
+
+    .product_edit_link {
+        margin-top: 16px;
+        width: 100%;
+    }
+}
