@@ -23,6 +23,7 @@ li {
 	form
 *********************************/
 input[type=text],
+input[type=password],
 textarea {
   border: 2px solid #8c8c8c;
   border-radius: 4px;

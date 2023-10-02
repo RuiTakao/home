@@ -1,11 +1,8 @@
 <?php
 
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Post $post
- */
 $this->Form->setTemplates([
-  'inputContainer' => '{{content}}'
+  'inputContainer' => '{{content}}',
+  'submitContainer' => '{{content}}'
 ]);
 ?>
 
