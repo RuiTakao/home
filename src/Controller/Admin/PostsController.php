@@ -21,7 +21,7 @@ class PostsController extends AdminController
      */
     public function index()
     {
-        $posts = $this->paginate($this->Posts);
+        $posts = $this->Posts->find()->order(['post_order' => 'asc']);
 
         $this->set(compact('posts'));
     }

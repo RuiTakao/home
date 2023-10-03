@@ -1,40 +1,51 @@
-.main {
+/*********************************
+	ログイン
+*********************************/
+
+/** コンテンツ幅 */
+.main_container {
+    width: 368px;
     padding-top: 160px;
 }
 
-.container {
-    width: 368px;
+/*********************************
+	tableレイアウト
+*********************************/
+.login_form table {
+	border-collapse: collapse ;
 }
 
-.form_content{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.login_form table tr th {
+    width: 28%;
 }
 
-.form_title {
+.login_form table tr:not(:first-child) th,
+.login_form table tr:not(:first-child) td {
+    padding-top: 16px;
+}
+
+/** フォームのタイトル */
+.login_form_title {
     display: block;
-    width: 20%;
+    width: 75%;
     position: relative;
     text-align: justify;
     text-align-last: justify;
 }
 
-.form_title::after {
+.login_form_title::after {
     content: '：';
     position: absolute;
     right: -12px;
 }
 
-.form_input {
-    width: 72%;
-}
-
-.input {
+/** フォーム部品 */
+.login_form_input {
     width: 100%;
     height: 32px;
 }
 
-.login_btn {
+.login_form_btn {
+    width: 100%;
     border-radius: 4px;
 }

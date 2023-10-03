@@ -33,7 +33,7 @@ if ($this->request->getParam('prefix') == 'Admin' && $this->request->getParam('a
 
 <body>
     <header class="header">
-        <div class="container">
+        <div class="header_container">
             <h1 class="header_title">たかおの作品リスト</h1>
             <?php if ($is_admin) : ?>
                 <div>
@@ -44,7 +44,7 @@ if ($this->request->getParam('prefix') == 'Admin' && $this->request->getParam('a
         </div>
     </header>
     <main class="main">
-        <div class="container">
+        <div class="main_container">
             <?= $this->Flash->render() ?>
             <?= $this->fetch('content') ?>
         </div>

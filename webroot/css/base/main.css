@@ -4,11 +4,15 @@
 .main {
     background: #F0DFCF;
     min-height: 100vh;
+    padding-top: 50px;
 }
 
-.container {
+/** コンテンツ幅 */
+.main_container {
     max-width: 768px;
     margin: 0 auto;
+    padding-top: 80px;
+    padding-bottom: 80px;
 }
 
 /** メインのレスポンシブ */

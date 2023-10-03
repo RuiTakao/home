@@ -30,12 +30,16 @@ class Post extends Entity
      * @var array<string, bool>
      */
     protected $_accessible = [
+        'id' => true,
         'title' => true,
         'body' => true,
         'image_path' => true,
+        'image_name' => true,
         'image_flg' => true,
         'url' => true,
         'url_flg' => true,
+        'status' => true,
+        'post_order' => true,
         'created' => true,
         'modified' => true,
     ];

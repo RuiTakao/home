@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -18,8 +19,13 @@ class PostsController extends AppController
      */
     public function index()
     {
-        $posts = $this->paginate($this->Posts);
+        $posts = $this->Posts->find()
+            ->where([
+                'status' => true,
+                'post_order >' => 0
+            ])
+            ->order(['post_order' => 'asc']);
 
-        $this->set(compact('posts'));
+        $this->set(['posts' => $posts]);
     }
 }

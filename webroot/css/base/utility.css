@@ -30,6 +30,40 @@
 }
 
 /*********************************
+	padding
+*********************************/
+.pt4 {
+  padding-top: 4px;
+}
+
+.pt8 {
+  padding-top: 8px;
+}
+
+.pt16 {
+  padding-top: 16px;
+}
+
+.pl4 {
+  padding-left: 4px;
+}
+
+.pl8 {
+  padding-left: 8px;
+}
+
+.pl16 {
+  padding-left: 16px;
+}
+
+/*********************************
+	width
+*********************************/
+.w100 {
+  width: 100%;
+}
+
+/*********************************
 	font weight
 *********************************/
 
@@ -79,6 +113,7 @@
   border: none;
   border-radius: 16px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 @media screen and (max-width:768px) {

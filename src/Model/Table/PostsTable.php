@@ -66,25 +66,25 @@ class PostsTable extends Table
             ->requirePresence('body', 'create')
             ->notEmptyString('body');
 
-        $validator
-            ->scalar('image_path')
-            ->maxLength('image_path', 255)
-            ->requirePresence('image_path', 'create')
-            ->notEmptyFile('image_path');
+        // $validator
+        //     ->scalar('image_path')
+        //     ->maxLength('image_path', 255)
+        //     ->requirePresence('image_path', 'create')
+        //     ->notEmptyFile('image_path');
 
-        $validator
-            ->boolean('image_flg')
-            ->notEmptyFile('image_flg');
+        // $validator
+        //     ->boolean('image_flg')
+        //     ->notEmptyFile('image_flg');
 
-        $validator
-            ->scalar('url')
-            ->maxLength('url', 255)
-            ->requirePresence('url', 'create')
-            ->notEmptyString('url');
+        // $validator
+        //     ->scalar('url')
+        //     ->maxLength('url', 255)
+        //     ->requirePresence('url', 'create')
+        //     ->notEmptyString('url');
 
-        $validator
-            ->boolean('url_flg')
-            ->notEmptyString('url_flg');
+        // $validator
+        //     ->boolean('url_flg')
+        //     ->notEmptyString('url_flg');
 
         return $validator;
     }

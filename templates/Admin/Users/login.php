@@ -1,50 +1,63 @@
 <?php
 
+/** formテンプレート設定 */
 $this->Form->setTemplates([
   'inputContainer' => '{{content}}',
   'submitContainer' => '{{content}}'
 ]);
 ?>
 
+<?php /** css読み込み */ ?>
 <?php $this->start('css') ?>
 <?= $this->Html->css('Admin/login') ?>
 <?php $this->end() ?>
 
-<div class="login_content card">
+<div class="login_form card">
   <?= $this->Flash->render() ?>
   <h3 class="fz16 text_center">管理者ログイン</h3>
+
+  <?php /** form */ ?>
   <?= $this->Form->create() ?>
-  <ul class="form_contents mt32">
-    <li class="form_content">
-      <label class="form_title fw600" for="username">ユーザー名</label>
-      <div class="form_input">
+  <table class="mt16">
+
+    <?php /** username */ ?>
+    <tr>
+      <th><label class="login_form_title" for="username">ユーザー名</label></th>
+      <td>
         <?= $this->Form->control('username', [
           'type' => 'text',
           'id' => 'username',
-          'class' => 'input',
+          'class' => 'login_form_input pl4',
           'label' => false,
           'required' => true
         ]) ?>
-      </div>
-    </li>
-    <li class="form_content mt16">
-      <label class="form_title fw600" for="password">パスワード</label>
-      <div class="form_input">
+      </td>
+    </tr>
+
+    <?php /** password */ ?>
+    <tr>
+      <th><label class="login_form_title" for="password">パスワード</label></th>
+      <td>
         <?= $this->Form->control('password', [
-          'type' => 'text',
+          'type' => 'password',
           'id' => 'password',
-          'class' => 'input',
+          'class' => 'login_form_input pl4',
           'label' => false,
           'required' => true
         ]) ?>
-      </div>
-    </li>
-    <li class="form_content">
-      <div></div>
-      <?= $this->Form->submit('ログイン', [
-        'class' => 'form_input login_btn btn btn_info mt16'
-      ]); ?>
-    </li>
-  </ul>
+      </td>
+    </tr>
+
+    <?php /** submit */ ?>
+    <tr>
+      <th></th>
+      <td>
+        <?= $this->Form->submit('ログイン', [
+          'class' => 'login_form_btn btn btn_info'
+        ]); ?>
+      </td>
+    </tr>
+
+  </table>
   <?= $this->Form->end() ?>
 </div>

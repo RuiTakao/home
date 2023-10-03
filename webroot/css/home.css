@@ -1,16 +1,9 @@
 /*********************************
-	プロダクトリスト
-*********************************/
-.product_content_list {
-  padding-top: 104px;
-}
-
-/*********************************
 	プロダクト
 *********************************/
 
 /* プロダクト間の上下のmargin */
-.product_content:not(:first-child) {
+.product:not(:first-child) {
   margin-top: 80px;
 }
 
@@ -19,14 +12,13 @@
 *********************************/
 
 /* プロダクトを交互に入れ替え */
-.product_image_content:nth-child(odd) {
+.product:nth-child(odd) .product_image_container {
   order: 2;
 }
 
 /* プロダクトの画像 */
 .product_image {
   display: block;
-  width: 368px;
   max-width: 368px;
 }
 
