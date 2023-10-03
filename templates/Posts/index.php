@@ -33,7 +33,7 @@
 
         <?php /** リンクの有り無し判定 */ ?>
         <?php if (!$post->url_flg) : ?>
-          <?= $this->Html->link('アプリを見る', h($post->url), ['class' => 'product_access_link btn btn_info mt32', 'target' => '_blank']) ?>
+          <?= $this->Html->link('アプリを見る', h($post->url), ['class' => 'product_access_btn btn info mt32', 'target' => '_blank']) ?>
         <?php endif; ?>
       </div>
 

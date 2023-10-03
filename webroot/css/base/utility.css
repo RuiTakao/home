@@ -127,22 +127,22 @@
 }
 
 /** button info */
-.btn_info {
+.btn.info {
   color: #fff;
   background: #0dcaf0;
 }
 
-.btn_info:hover {
+.btn.info:hover {
   background: #31d2f2;
 }
 
 /** button danger */
-.btn_danger {
+.btn.danger {
   color: #fff;
   background: #dc3545;
 }
 
-.btn_danger:hover {
+.btn.danger:hover {
   background: #bb2d3b;
 }
 
@@ -157,9 +157,14 @@
   border-radius: 4px;
 }
 
-.status_success {
+.status.success {
   border: 1px solid #198754;
   color: #198754;
+}
+
+.status.danger {
+  border: 1px solid #DC3545;
+  color: #DC3545;
 }
 
 /*********************************

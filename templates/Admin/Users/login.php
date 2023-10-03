@@ -53,7 +53,7 @@ $this->Form->setTemplates([
       <th></th>
       <td>
         <?= $this->Form->submit('ログイン', [
-          'class' => 'login_form_btn btn btn_info'
+          'class' => 'login_form_btn btn info'
         ]); ?>
       </td>
     </tr>

@@ -15,20 +15,27 @@ if ($this->request->getParam('prefix') == 'Admin' && $this->request->getParam('a
     <title>たかおの作品リスト</title>
     <?= $this->Html->meta('icon') ?>
     <?= $this->fetch('meta') ?>
-    
+
+    <!-- css -->
     <?php /** css */ ?>
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
     <?= $this->Html->css(['base/reset']) ?>
     <?= $this->Html->css(['base/utility']) ?>
     <?= $this->Html->css(['base/header']) ?>
     <?= $this->Html->css(['base/main']) ?>
+    <?php /** css 管理者 */ ?>
     <?php if ($is_admin) : ?>
         <?= $this->Html->css(['base/Admin/header']) ?>
+        <?= $this->Html->css(['base/Admin/main']) ?>
     <?php endif; ?>
+    <?php /** css 各ページ */ ?>
     <?= $this->fetch('css') ?>
 
     <?php /** js */ ?>
-    <?= $this->fetch('script') ?>
+    <?php if ($this->fetch('script')) : ?>
+        <!-- js -->
+        <?= $this->fetch('script') ?>
+    <?php endif; ?>
 </head>
 
 <body>
