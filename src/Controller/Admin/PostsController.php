@@ -50,28 +50,36 @@ class PostsController extends AdminController
     public function add()
     {
         $post = $this->Posts->newEmptyEntity();
+        $errors = [];
         if ($this->request->is('post')) {
 
             $data = $this->request->getData();
 
-            $image = $data['image_path'];
-            $image_path = 'tmp/' . $image->getClientFilename();
-            if (file_exists(WWW_ROOT . 'img/' . $image_path)) {
-                $this->Flash->error(__('ファイルが存在します'));
-                return;
-            }
-            $image->moveto(WWW_ROOT . 'img/' . $image_path);
+            if (($data['url_flg'] && $data['url'] != "") || ($data['image_flg'] && $data['image_path']) || ($data['image_flg'] && $data['image_name'])) {
+                // $this->Session->setFlash('My message', 'alert');
+                // return $this->redirect(['action' => 'index']);
+            } 
+            // else if (!$data['image_flg'] && ) {
+                
+            // }
 
-            $data['image_path'] = $image_path;
+            // $image = $data['image_path'];
+            // $image_path = 'tmp/' . $image->getClientFilename();
+            // if (file_exists(WWW_ROOT . 'img/' . $image_path)) {
+            //     $this->Flash->error(__('ファイルが存在します'));
+            //     return;
+            // }
+            // $image->moveto(WWW_ROOT . 'img/' . $image_path);
+
+            $data['image_path'] = '';
 
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
-                $this->Flash->success(__('The post has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The post could not be saved. Please, try again.'));
         }
+        $this->set(['errors' => $errors]);
         $this->set(compact('post'));
     }
 
@@ -87,8 +95,22 @@ class PostsController extends AdminController
         $post = $this->Posts->get($id, [
             'contain' => [],
         ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $post = $this->Posts->patchEntity($post, $this->request->getData());
+
+            $data = $this->request->getData();
+
+            $image = $data['image_path'];
+            $image_path = 'tmp/' . $image->getClientFilename();
+            if (file_exists(WWW_ROOT . 'img/' . $image_path)) {
+                $this->Flash->error(__('ファイルが存在します'));
+                return;
+            }
+            $image->moveto(WWW_ROOT . 'img/' . $image_path);
+
+            $data['image_path'] = $image_path;
+
+            $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
                 $this->Flash->success(__('The post has been saved.'));
 

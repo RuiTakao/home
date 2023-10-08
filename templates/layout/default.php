@@ -34,6 +34,9 @@ if ($this->request->getParam('prefix') == 'Admin' && $this->request->getParam('a
     <?php /** js */ ?>
     <?php if ($this->fetch('script')) : ?>
         <!-- js -->
+        <script>
+            
+        </script>
         <?= $this->fetch('script') ?>
     <?php endif; ?>
 </head>

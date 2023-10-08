@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -55,32 +56,40 @@ class PostsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->scalar('title')
-            ->maxLength('title', 150)
-            ->requirePresence('title', 'create')
-            ->notEmptyString('title');
+            ->maxLength('title', 150, '作品名は150文字以内で入力してください。')
+            ->notEmptyString('title', '作品名は必須です。');
 
         $validator
-            ->scalar('body')
-            ->maxLength('body', 255)
-            ->requirePresence('body', 'create')
-            ->notEmptyString('body');
+            ->maxLength('body', 255, '作品名は255文字以内で入力してください。')
+            ->notEmptyString('body', '説明は必須です。');
 
-        // $validator
-        //     ->scalar('image_path')
-        //     ->maxLength('image_path', 255)
-        //     ->requirePresence('image_path', 'create')
-        //     ->notEmptyFile('image_path');
+        $validator
+            ->integer('status')
+            ->notEmptyString('status');
+
+        $validator
+            ->maxLength('image_path', 255)
+            ->notEmptyFile('image_path', 'y');
+            // ->notEmptyFile('image_path', '画像が選択されていません。', function($context) {
+            //     if (!$context['data']['image_flg']) {
+            //         return true;
+            //     }
+            //     return false;
+            // });
 
         // $validator
         //     ->boolean('image_flg')
         //     ->notEmptyFile('image_flg');
 
-        // $validator
-        //     ->scalar('url')
-        //     ->maxLength('url', 255)
-        //     ->requirePresence('url', 'create')
-        //     ->notEmptyString('url');
+        $validator
+            ->maxLength('url', 255)
+            ->url('url', 'URLを入力してください。')
+            ->notEmptyString('url', 'URLを入力してください。', function($context) {
+                if (!$context['data']['url_flg']) {
+                    return true;
+                }
+                return false;
+            });
 
         // $validator
         //     ->boolean('url_flg')

@@ -1,6 +1,4 @@
-<?php
-
-/** css読み込み */ ?>
+<?php /** css読み込み */ ?>
 <?php $this->start('css') ?>
 <?= $this->Html->css('Admin/Posts/index') ?>
 <?php $this->end() ?>

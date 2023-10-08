@@ -1,21 +1,25 @@
 <?php
 
+/** formテンプレート設定 */
 $this->Form->setTemplates([
   'inputContainer' => '{{content}}',
   'submitContainer' => '{{content}}'
 ]);
 ?>
 
+
+<?php /** css読み込み */ ?>
 <?php $this->start('css') ?>
 <?= $this->Html->css('Admin/dropify/css/dropify.min.css') ?>
 <?= $this->Html->css('Admin/Posts/add.css') ?>
 <?php $this->end() ?>
 
+<?php /** js読み込み */ ?>
 <?php $this->start('script') ?>
 <?= $this->Html->script('Admin/dropify.js', ['defer']) ?>
 <?php $this->end() ?>
 
-<?= $this->Form->create($post, [
+<?php /** form */ ?><?= $this->Form->create($post, [
   'id' => 'product_upload_form',
   'class' => 'product_upload_form',
   'type' => 'file'
@@ -90,13 +94,17 @@ $this->Form->setTemplates([
         ]) ?><label for="image_flg">なし</label>
       </div>
       <?= $this->Form->control('image_path', [
-        'class' => 'dropify mt16',
+        'class' => 'dropify',
         'type' => 'file',
         'label' => false,
-        'required' => false
+        'required' => false,
+        'div' => true
       ]) ?>
     </div>
   </li>
+  <?php if ($post->getError('image_path')) : ?>
+    <p class="error-message"><?= $post->getError('image_path')['_empty'] ?></p>
+  <?php endif; ?>
 
   <li class="product_upload_content">
     <div></div>

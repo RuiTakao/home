@@ -1,37 +1,117 @@
 <?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Post $post
- */
+
+/** formテンプレート設定 */
+$this->Form->setTemplates([
+  'inputContainer' => '{{content}}',
+  'submitContainer' => '{{content}}'
+]);
 ?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $post->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $post->id), 'class' => 'side-nav-item']
-            ) ?>
-            <?= $this->Html->link(__('List Posts'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
-        <div class="posts form content">
-            <?= $this->Form->create($post) ?>
-            <fieldset>
-                <legend><?= __('Edit Post') ?></legend>
-                <?php
-                    echo $this->Form->control('title');
-                    echo $this->Form->control('body');
-                    echo $this->Form->control('image_path');
-                    echo $this->Form->control('image_flg');
-                    echo $this->Form->control('url');
-                    echo $this->Form->control('url_flg');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
-            <?= $this->Form->end() ?>
-        </div>
+
+
+<?php /** css読み込み */ ?>
+<?php $this->start('css') ?>
+<?= $this->Html->css('Admin/dropify/css/dropify.min.css') ?>
+<?= $this->Html->css('Admin/Posts/add.css') ?>
+<?php $this->end() ?>
+
+<?php /** js読み込み */ ?>
+<?php $this->start('script') ?>
+<?= $this->Html->script('Admin/dropify.js', ['defer']) ?>
+<?php $this->end() ?>
+
+<?php /** form */ ?>
+<?= $this->Form->create($post, [
+  'id' => 'product_upload_form',
+  'class' => 'product_upload_form',
+  'type' => 'file'
+]) ?>
+<ul class="product_upload_content_list card">
+
+  <?php /** title */ ?>
+  <li class="product_upload_content">
+    <label class="product_upload_content_title fw600 pt4" for="title">作品名</label>
+    <div class="product_upload_content_input">
+      <?= $this->Form->control('title', [
+        'id' => 'title',
+        'class' => 'input',
+        'label' => false,
+        'required' => false
+      ]) ?>
     </div>
-</div>
+  </li>
+
+  <li class="product_upload_content">
+    <div class="product_upload_content_title fw600 pt4"><label for="body">説明</label></div>
+    <div class="product_upload_content_input">
+      <?= $this->Form->control('body', [
+        'id' => 'body',
+        'class' => 'textarea',
+        'type' => 'textarea',
+        'label' => false,
+        'required' => false
+      ]) ?>
+    </div>
+  </li>
+
+  <li class="product_upload_content">
+    <div class="product_upload_content_title fw600"><label for="status">ステータス</label></div>
+    <div class="product_upload_content_input form_list_radio">
+      <?= $this->Form->radio('status', [
+        ['value' => 1, 'text' => '表示'],
+        ['value' => 0, 'text' => '非表示']
+      ]) ?>
+    </div>
+  </li>
+
+  <li class="product_upload_content">
+    <div class="product_upload_content_title fw600 pt4"><label for="url">ＵＲＬ</label></div>
+    <div class="product_upload_content_input">
+      <?= $this->Form->control('url', [
+        'id' => 'url',
+        'class' => 'input',
+        'label' => false,
+        'required' => false
+      ]) ?>
+      <div class="form_list_checkbox mt16">
+        <?= $this->Form->checkbox('url_flg', [
+          'id' => 'url_flg'
+        ]) ?><label for="url_flg">なし</label>
+      </div>
+    </div>
+  </li>
+
+  <li class="product_upload_content">
+    <div class="product_upload_content_title fw600 pt4"><label for="url">画像名</label></div>
+    <div class="product_upload_content_input">
+      <?= $this->Form->control('image_name', [
+        'id' => 'image_name',
+        'class' => 'input',
+        'label' => false,
+        'required' => false
+      ]) ?>
+      <div class="form_list_checkbox mt16">
+        <?= $this->Form->checkbox('image_flg', [
+          'id' => 'image_flg'
+        ]) ?><label for="image_flg">なし</label>
+      </div>
+      <?= $this->Form->control('image_path', [
+        'class' => 'dropify mt16',
+        'type' => 'file',
+        'label' => false,
+        'required' => false
+      ]) ?>
+    </div>
+  </li>
+
+  <li class="product_upload_content">
+    <div></div>
+    <div class="product_upload_content_input">
+      <?= $this->Form->button('登録する', [
+        'class' => 'btn btn_danger',
+        'style' => 'width:100%;'
+      ]) ?>
+    </div>
+  </li>
+
+</ul>
+<?= $this->Form->end() ?>
