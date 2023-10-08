@@ -121,6 +121,26 @@ class PostsController extends AdminController
         $this->set(compact('post'));
     }
 
+    public function order() {
+        $data = $this->request->getData();
+        $posts = $this->Posts->find();
+        foreach ($data['product'] as $index => $product) {
+            $post = $this->Posts->get($product, [
+                'contain' => [],
+            ]);
+
+            $post = $this->Posts->patchEntity($post, ['post_order' => $data['order'][$index]]);
+            if ($this->Posts->save($post)) {
+                // $this->Flash->success(__('The post has been saved.'));
+
+                // return $this->redirect(['action' => 'index']);
+            }
+        }
+
+
+        return $this->redirect(['action' => 'index']);
+    }
+
     /**
      * Delete method
      *
@@ -140,4 +160,6 @@ class PostsController extends AdminController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    
 }

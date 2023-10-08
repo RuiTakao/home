@@ -23,7 +23,11 @@
 
 /* プロダクト間の上下のmargin */
 .product:not(:first-child) {
-  margin-top: 80px;
+  margin-top: 32px;
+}
+
+.product {
+  margin-bottom: 32px;
 }
 
 /*********************************
@@ -69,4 +73,20 @@
     margin-top: 16px;
     width: 100%;
   }
+}
+
+/* test */
+/* .product_container {
+  background: #eee;
+  width: 100%;
+} */
+
+.js-dropZone.is-active {
+  height: 400px;
+  width: 100%;
+  background: #eee;
+}
+
+.flex {
+  background: #fff;
 }
