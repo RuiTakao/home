@@ -90,11 +90,9 @@ class PostsController extends AdminController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit()
     {
-        $post = $this->Posts->get($id, [
-            'contain' => [],
-        ]);
+        $post = $this->Posts->find()->first();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
 
@@ -123,11 +121,8 @@ class PostsController extends AdminController
 
     public function order() {
         $data = $this->request->getData();
-        $posts = $this->Posts->find();
         foreach ($data['product'] as $index => $product) {
-            $post = $this->Posts->get($product, [
-                'contain' => [],
-            ]);
+            $post = $this->Posts->find()->select(['id' => $product])->first();
 
             $post = $this->Posts->patchEntity($post, ['post_order' => $data['order'][$index]]);
             if ($this->Posts->save($post)) {
