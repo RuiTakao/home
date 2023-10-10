@@ -10,11 +10,13 @@
 
   <!-- css -->
   <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
-  <?= $this->Html->css(['Admin/reset']) ?>
-  <?= $this->Html->css(['Admin/utility']) ?>
-  <?= $this->Html->css(['Admin/layout/header']) ?>
-  <?= $this->Html->css(['Admin/layout/aside']) ?>
-  <?= $this->Html->css(['Admin/layout/main']) ?>
+  <?= $this->Html->css([
+    'reset',
+    'utility',
+    'Admin/layout/header',
+    'Admin/layout/aside',
+    'Admin/layout/main'
+  ]) ?>
   <?php /** css 各ページ */ ?>
   <?= $this->fetch('css') ?>
 

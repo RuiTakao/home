@@ -5,6 +5,10 @@
 /*********************************
 	margin
 *********************************/
+.mt4 {
+  margin-top: 4px;
+}
+
 .mt8 {
   margin-top: 8px;
 }
@@ -15,6 +19,10 @@
 
 .mt32 {
   margin-top: 32px;
+}
+
+.ml4 {
+  margin-left: 4px;
 }
 
 .ml8 {
@@ -44,6 +52,10 @@
   padding-top: 16px;
 }
 
+.pt32 {
+  padding-top: 32px;
+}
+
 .pl4 {
   padding-left: 4px;
 }
@@ -56,11 +68,22 @@
   padding-left: 16px;
 }
 
+.pl32 {
+  padding-left: 32px;
+}
+
 /*********************************
 	width
 *********************************/
 .w100 {
   width: 100%;
+}
+
+/*********************************
+	height
+*********************************/
+.h64 {
+  height: 64px;
 }
 
 /*********************************
@@ -177,30 +200,22 @@
 }
 
 /*********************************
-	2カラムのレイアウト
+	flex box
 *********************************/
-/*!
- * 2カラムの余白
- * 32px
- *
- * 1カラムのサイズ
- * 368px
- *
- * 位置の入れ替え
- * 奇数、偶数で左右交互に表示
- */
-
-/** カラム全体 */
 .flex {
   display: flex;
-  justify-content: space-between;
-  gap: 32px;
 }
 
-/** カラム毎 */
-.flex_column {
-  width: 368px;
-  max-width: 368px;
+.justify-space-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
 }
 
 @media screen and (max-width:768px) {
@@ -208,21 +223,4 @@
   .flex {
     display: block;
   }
-
-  .flex_column {
-    margin: 0 auto;
-    width: 90%;
-  }
-
-  .flex_column:not(:first-child) {
-    margin-top: 16px;
-  }
-}
-
-/*********************************
-	2カラムのレイアウト
-*********************************/
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
 }

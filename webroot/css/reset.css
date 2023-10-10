@@ -8,6 +8,7 @@
 }
 
 body {
+  font-family: "MSゴシック", "ヒラギノ角ゴ", Arial, sans-serif;
   font-size: 12px;
 }
 
@@ -17,19 +18,4 @@ a {
 
 li {
   list-style: none;
-}
-
-table {
-  width: 100%;
-}
-
-/*********************************
-	form
-*********************************/
-input[type=text],
-input[type=password],
-textarea {
-  border: 2px solid #8c8c8c;
-  border-radius: 4px;
-  background: #fafafa;
 }

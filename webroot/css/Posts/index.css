@@ -11,6 +11,11 @@
 	プロダクト画像
 *********************************/
 
+/* コンテンツ幅 */
+.product_image_container {
+  width: 368px;
+}
+
 /* プロダクトを交互に入れ替え */
 .product:nth-child(odd) .product_image_container {
   order: 2;
@@ -19,7 +24,7 @@
 /* プロダクトの画像 */
 .product_image {
   display: block;
-  max-width: 368px;
+  width: 368px;
 }
 
 @media screen and (max-width:768px) {
@@ -32,6 +37,11 @@
 /*********************************
 	プロダクト詳細
 *********************************/
+
+/* コンテンツ幅 */
+.product_detail_container {
+  width: 368px;
+}
 
 /* プロダクトのタイトル */
 .product_title {
