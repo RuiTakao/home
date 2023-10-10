@@ -1,0 +1,41 @@
+/*********************************
+	サイドバー
+*********************************/
+
+/** サイドバー全体 */
+.aside {
+  padding-top: 64px;
+  padding-left: calc((100vw - 1200px) / 2);
+  position: fixed;
+  background: #fff;
+  min-height: 100vh;
+  top: 0;
+  left: 0;
+  width: calc((100vw - 1200px) / 2 + (1200px * 15 / 100));
+  box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.35);
+}
+
+/** サイドバー ナビゲーション */
+.aside_nav {
+  padding-top: 40px;
+  padding-left: 8px;
+}
+
+/** ナビゲーションリンクアイテム */
+.aside_link_item:not(:first-child) {
+  margin-top: 16px;
+}
+
+/** ナビゲーションリンク */
+.aside_link {
+  font-size: 16px;
+  color: #333;
+  padding: 8px 8px;
+  border-radius: 2px;
+  letter-spacing: .2em;
+  font-weight: 600;
+}
+
+.aside_link:hover {
+  background: #ccc;
+}

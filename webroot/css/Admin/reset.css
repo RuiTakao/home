@@ -1,0 +1,21 @@
+/*********************************
+	css初期化
+*********************************/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "MSゴシック", "ヒラギノ角ゴ", Arial, sans-serif;
+  font-size: 12px;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}

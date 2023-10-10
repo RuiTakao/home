@@ -1,61 +1,36 @@
 <?php $this->start('css') ?>
-<?= $this->Html->css('Admin/Posts/index') ?>
-<style>
-    .card {
-        border-radius: 20px;
-        height: 500px;
-    }
-
-    .left {
-        width: 75%;
-    }
-
-    .area {
-        background: #ddd;
-        border-radius: 16px;
-        height: 100%;
-        width: 100%;
-        box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
-    }
-
-    .ul {
-        padding: 8px;
-    }
-
-    .li {
-        background: #fff;
-        width: 100%;
-        border-radius: 4px;
-        height: 64px;
-        padding: 4px 8px;
-        font-size: 16px;
-    }
-
-    .li:not(:first-child) {
-        margin-top: 8px;
-    }
-</style>
+<?= $this->Html->css('Admin/Posts/order') ?>
 <?php $this->end() ?>
 
-<div class="flex card">
-    <div class="left">
-        <div class="area">
-            <ul class="ul">
-                <?php foreach ($posts as $post) : ?>
-                    <li class="li">
-                        <p><?= $post->title ?></p>
-                        <?= $this->Form->radio('status' . $post->id, [
-                            ['value' => 1, 'text' => '表示'],
-                            ['value' => 0, 'text' => '非表示'],
-                        ], [
-                            'value' => $post->status
-                        ]) ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </div>
-    <div class="right">
-        <button>この設定にする</button>
-    </div>
+<?php $this->start('script') ?>
+<?= $this->Html->script('Admin/Posts/index', ['defer']) ?>
+<?php $this->end() ?>
+
+<?= $this->Form->create(null, ['action' => 'order']) ?>
+<div class="view_setting_container flex card">
+  <div class="product_order_container">
+    <ul id="productOrderList" class="product_order_list">
+      <?php foreach ($posts as $post) : ?>
+        <li class="product_order_item">
+          <div class="product js-productOrder" draggable="true">
+            <p><?= $post->title ?></p>
+            <?= $this->Form->radio('status[]' . $post->id, [
+              ['value' => 1, 'text' => '表示'],
+              ['value' => 0, 'text' => '非表示'],
+            ], [
+              'value' => $post->status,
+              'hiddenField' => false
+            ]) ?>
+            <?= $this->Form->hidden('product[]', ['value' => $post->id]) ?>
+            <?= $this->Form->hidden('order[]', ['value' => $post->post_order + 1]) ?>
+          </div>
+        </li>
+      <?php endforeach; ?>
+      <li class="product_order_item js-dropZone"></li>
+    </ul>
+  </div>
+  <div class="right">
+    <?= $this->Form->submit('この設定にする') ?>
+  </div>
 </div>
+<?= $this->Form->end() ?>

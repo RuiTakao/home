@@ -1,0 +1,43 @@
+/*********************************
+	ヘッダー
+*********************************/
+
+/** ヘッダー全体 */
+.header {
+  background: #000;
+  height: 64px;
+  position: fixed;
+  width: 100%;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+}
+
+/** コンテンツ幅 */
+.header_container {
+  margin: 0 auto;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/** タイトル */
+.header_title {
+  font-size: 16px;
+  color: #fff;
+  font-weight: bold;
+  line-height: 64px;
+  text-align: center;
+}
+
+/** ログアウトボタン */
+.logout {
+  background: #fff;
+  color: #000;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  border-radius: 12px;
+  width: 80px;
+  font-weight: 600;
+}

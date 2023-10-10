@@ -1,0 +1,19 @@
+/*********************************
+	メイン
+*********************************/
+
+/** メイン全体 */
+.main {
+  padding-top: 64px;
+  min-height: 100vh;
+  margin-left: calc((100vw - 1200px) / 2 + (1200px * 15 / 100));
+  background: #eee;
+}
+
+/** コンテンツ幅 */
+.main_container {
+  padding-left: 32px;
+  padding-top: 32px;
+  padding-bottom: 64px;
+  width: calc(1200px * 85 / 100);
+}

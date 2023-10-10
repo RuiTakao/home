@@ -1,0 +1,39 @@
+.view_setting_container {
+  border-radius: 16px;
+  min-height: 568px;
+}
+
+.product_order_container {
+  background: #ddd;
+  border-radius: 16px;
+  min-height: 100%;
+  width: 75%;
+  box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.product_order_list {
+  padding: 8px;
+}
+
+.product {
+  background: #fff;
+  width: 100%;
+  border-radius: 4px;
+  height: 64px;
+  padding: 4px 8px;
+  font-size: 16px;
+}
+
+.product_order_item {
+  background: #eee;
+}
+
+.product_order_item:not(:first-child) {
+  margin-top: 8px;
+}
+
+.js-dropZone.is-active {
+  height: 64px;
+  width: 100%;
+  background: #eee;
+}

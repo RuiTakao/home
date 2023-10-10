@@ -2,23 +2,23 @@
 	メイン
 *********************************/
 .main {
-    background: #F0DFCF;
-    min-height: 100vh;
-    padding-top: 50px;
+  background: #F0DFCF;
+  min-height: 100vh;
+  padding-top: 50px;
 }
 
 /** コンテンツ幅 */
 .main_container {
-    max-width: 768px;
-    margin: 0 auto;
-    padding-top: 80px;
-    padding-bottom: 80px;
+  max-width: 768px;
+  margin: 0 auto;
+  padding-top: 80px;
+  padding-bottom: 80px;
 }
 
 /** メインのレスポンシブ */
 @media screen and (max-width:768px) {
-    .main {
-        padding-left: 0;
-        padding-right: 0;
-    }
+  .main {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }

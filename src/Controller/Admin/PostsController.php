@@ -128,7 +128,7 @@ class PostsController extends AdminController
             foreach ($data['product'] as $index => $product) {
                 $post = $this->Posts->find()->select(['id' => $product])->first();
     
-                $post = $this->Posts->patchEntity($post, ['post_order' => $data['order'][$index]]);
+                $post = $this->Posts->patchEntity($post, ['post_order' => $data['order'][$index], 'status' => $data['status'][$index]]);
                 if ($this->Posts->save($post)) {
                     // $this->Flash->success(__('The post has been saved.'));
     
@@ -160,6 +160,7 @@ class PostsController extends AdminController
             $this->Flash->error(__('The post could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        // return $this->redirect(['action' => 'index']);
+        return;
     }
 }

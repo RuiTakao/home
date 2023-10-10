@@ -4,48 +4,48 @@
 
 /** コンテンツ幅 */
 .main_container {
-    width: 368px;
-    padding-top: 160px;
+  width: 368px;
+  padding-top: 160px;
 }
 
 /*********************************
 	tableレイアウト
 *********************************/
 .login_form table {
-	border-collapse: collapse ;
+  border-collapse: collapse;
 }
 
 .login_form table tr th {
-    width: 28%;
+  width: 28%;
 }
 
 .login_form table tr:not(:first-child) th,
 .login_form table tr:not(:first-child) td {
-    padding-top: 16px;
+  padding-top: 16px;
 }
 
 /** フォームのタイトル */
 .login_form_title {
-    display: block;
-    width: 75%;
-    position: relative;
-    text-align: justify;
-    text-align-last: justify;
+  display: block;
+  width: 75%;
+  position: relative;
+  text-align: justify;
+  text-align-last: justify;
 }
 
 .login_form_title::after {
-    content: '：';
-    position: absolute;
-    right: -12px;
+  content: '：';
+  position: absolute;
+  right: -12px;
 }
 
 /** フォーム部品 */
 .login_form_input {
-    width: 100%;
-    height: 32px;
+  width: 100%;
+  height: 32px;
 }
 
 .login_form_btn {
-    width: 100%;
-    border-radius: 4px;
+  width: 100%;
+  border-radius: 4px;
 }

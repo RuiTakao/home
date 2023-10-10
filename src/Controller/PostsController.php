@@ -19,6 +19,8 @@ class PostsController extends AppController
      */
     public function index()
     {
+        $this->viewBuilder()->disableAutoLayout();
+
         $posts = $this->Posts->find()
             ->where([
                 'status' => true,

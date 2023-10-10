@@ -40,15 +40,15 @@
     ?>
 
     <?php /** 作品のコンテンツ */ ?>
-    <li class="product flex card">
+    <li class="product flex card justify-space-between">
 
       <?php /** 作品の画像 */ ?>
-      <div class="product_image_container flex_column">
+      <div class="product_image_container flex align-center">
         <?= $this->Html->image($image_path, ['class' => 'product_image', 'alt' => $image_name]) ?>
       </div>
 
       <?php /** 作品の詳細 */ ?>
-      <div class="product_detail_container flex_column">
+      <div class="product_detail_container">
         <p class="product_title"><?= h($post->title) ?><span class="product_status ml8 <?= $stats_class ?>"><?= $status ?></span></p>
         <?php /** 画像の有り無し判定 */ ?>
         <?php if ($image_flg) : ?>

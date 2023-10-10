@@ -27,15 +27,16 @@
 }
 
 .product {
-  margin-bottom: 32px;
+  border-radius: 16px;
 }
 
 /*********************************
     プロダクト画像
 *********************************/
-
 .product_image_container {
   order: 2;
+  width: 368px;
+  height: 276.5px;
 }
 
 /* プロダクトの画像 */
@@ -56,6 +57,9 @@
 /*********************************
       プロダクト詳細
 *********************************/
+.product_detail_container {
+  width: 50%;
+}
 
 /* プロダクトの本文 */
 .product_body {
@@ -74,16 +78,3 @@
     width: 100%;
   }
 }
-
-/* test */
-/* .product_container {
-  background: #eee;
-  width: 100%;
-} */
-
-.js-dropZone.is-active {
-  height: 400px;
-  width: 100%;
-  background: #eee;
-}
-
