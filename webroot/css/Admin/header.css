@@ -3,7 +3,7 @@
 *********************************/
 body {
     font-family: "MSゴシック", "ヒラギノ角ゴ", Arial, sans-serif;
-    
+
 }
 
 .container {
@@ -69,17 +69,16 @@ body {
 }
 
 .aside_link {
-    font-size: 12px;
-    /* font-weight: bold; */
+    font-size: 16px;
     color: #333;
-    padding:4px 8px;
+    padding:8px 8px;
     border-radius: 2px;
     letter-spacing: .2em;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .aside_link:hover {
-    /* background: #ccc; */
+    background: #ccc;
 }
 
 .main {
@@ -103,7 +102,7 @@ body {
     justify-content: space-between;
     gap: 32px;
   }
-  
+
   /** カラム毎 */
   .flex_column {
     width: 368px;

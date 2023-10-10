@@ -23,6 +23,8 @@ class UsersController extends AdminController
 
     public function login()
     {
+        $this->viewBuilder()->disableAutoLayout();
+
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
         // POST, GET を問わず、ユーザーがログインしている場合はリダイレクトします
