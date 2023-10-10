@@ -1,11 +1,3 @@
-<?php
-
-/** 管理画面であるかないか判定 */
-$is_admin = false;
-if ($this->request->getParam('prefix') == 'Admin' && $this->request->getParam('action') != 'login') {
-    $is_admin = true;
-}
-?>
 <!DOCTYPE html>
 <html>
 
@@ -17,17 +9,11 @@ if ($this->request->getParam('prefix') == 'Admin' && $this->request->getParam('a
     <?= $this->fetch('meta') ?>
 
     <!-- css -->
-    <?php /** css */ ?>
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
-    <?= $this->Html->css(['base/reset']) ?>
-    <?= $this->Html->css(['base/utility']) ?>
+    <?= $this->Html->css(['reset']) ?>
+    <?= $this->Html->css(['utility']) ?>
     <?= $this->Html->css(['base/header']) ?>
     <?= $this->Html->css(['base/main']) ?>
-    <?php /** css 管理者 */ ?>
-    <?php if ($is_admin) : ?>
-        <?= $this->Html->css(['base/Admin/header']) ?>
-        <?= $this->Html->css(['base/Admin/main']) ?>
-    <?php endif; ?>
     <?php /** css 各ページ */ ?>
     <?= $this->fetch('css') ?>
 
@@ -45,17 +31,10 @@ if ($this->request->getParam('prefix') == 'Admin' && $this->request->getParam('a
     <header class="header">
         <div class="header_container">
             <h1 class="header_title">たかおの作品リスト</h1>
-            <?php if ($is_admin) : ?>
-                <div>
-                    <?= $this->Html->link('追加する', ['controller' => 'posts', 'action' => 'add']) ?>
-                    <?= $this->Html->link('ログアウト', ['controller' => 'users', 'action' => 'logout']) ?>
-                </div>
-            <?php endif; ?>
         </div>
     </header>
     <main class="main">
         <div class="main_container">
-            <?= $this->Flash->render() ?>
             <?= $this->fetch('content') ?>
         </div>
     </main>

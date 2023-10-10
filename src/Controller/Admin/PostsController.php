@@ -58,9 +58,9 @@ class PostsController extends AdminController
             if (($data['url_flg'] && $data['url'] != "") || ($data['image_flg'] && $data['image_path']) || ($data['image_flg'] && $data['image_name'])) {
                 // $this->Session->setFlash('My message', 'alert');
                 // return $this->redirect(['action' => 'index']);
-            } 
+            }
             // else if (!$data['image_flg'] && ) {
-                
+
             // }
 
             // $image = $data['image_path'];
@@ -90,9 +90,9 @@ class PostsController extends AdminController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit()
+    public function edit($id = null)
     {
-        $post = $this->Posts->find()->first();
+        $post = $this->Posts->find('all', ['id' => $id])->first();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
 
@@ -119,21 +119,28 @@ class PostsController extends AdminController
         $this->set(compact('post'));
     }
 
-    public function order() {
-        $data = $this->request->getData();
-        foreach ($data['product'] as $index => $product) {
-            $post = $this->Posts->find()->select(['id' => $product])->first();
+    public function order()
+    {
+        $posts = $this->Posts->find()->order(['post_order' => 'asc']);
 
-            $post = $this->Posts->patchEntity($post, ['post_order' => $data['order'][$index]]);
-            if ($this->Posts->save($post)) {
-                // $this->Flash->success(__('The post has been saved.'));
-
-                // return $this->redirect(['action' => 'index']);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $data = $this->request->getData();
+            foreach ($data['product'] as $index => $product) {
+                $post = $this->Posts->find()->select(['id' => $product])->first();
+    
+                $post = $this->Posts->patchEntity($post, ['post_order' => $data['order'][$index]]);
+                if ($this->Posts->save($post)) {
+                    // $this->Flash->success(__('The post has been saved.'));
+    
+                    // return $this->redirect(['action' => 'index']);
+                }
             }
+    
+    
+            return $this->redirect(['action' => 'index']);
         }
 
-
-        return $this->redirect(['action' => 'index']);
+        $this->set(compact('posts'));
     }
 
     /**
@@ -155,6 +162,4 @@ class PostsController extends AdminController
 
         return $this->redirect(['action' => 'index']);
     }
-
-    
 }
