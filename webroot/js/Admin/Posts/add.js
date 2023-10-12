@@ -5,6 +5,18 @@ const url_input = document.getElementById('url_input');
 const image_name_input = document.getElementById('image_name_input');
 const image_path_input = document.getElementById('image_path_input');
 
+const url_flg_false = document.getElementById('url-flg-0');
+const image_flg_false = document.getElementById('image-flg-0');
+
+if (url_flg_false.checked) {
+  url_input.classList.add('is-hidden');
+}
+
+if (image_flg_false.checked) {
+  image_name_input.classList.add('is-hidden');
+  image_path_input.classList.add('is-hidden');;
+}
+
 url_flg.forEach(input => {
   input.addEventListener('input', () => {
     if (input.value == '0') {

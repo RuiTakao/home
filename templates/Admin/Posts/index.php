@@ -11,7 +11,7 @@
 
     <?php
     /** 画像の有り無し判定 */
-    if (!$post->image_flg) {
+    if ($post->image_flg) {
       $image_flg = true;
       $image_path = h($post->image_path);
       $image_name = h($post->image_name);
@@ -31,7 +31,7 @@
     }
 
     /** URLの有り無し判定 */
-    if (!$post->url_flg) {
+    if ($post->url_flg) {
       $url = h($post->url);
       $url = $this->Html->link($url, $url, ['class' => 'product_access_link', 'target' => '_blank']);
     } else {

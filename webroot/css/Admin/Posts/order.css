@@ -18,14 +18,16 @@
 .product {
   background: #fff;
   width: 100%;
-  border-radius: 4px;
-  height: 64px;
-  padding: 4px 8px;
+  border-radius: 8px;
+  height: 96px;
+  padding: 8px;
   font-size: 16px;
+  box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.35);
 }
 
 .product_order_item {
   background: #eee;
+  border-radius: 8px;
 }
 
 .product_order_item:not(:first-child) {
@@ -33,7 +35,31 @@
 }
 
 .js-dropZone.is-active {
-  height: 64px;
+  height: 96px;
   width: 100%;
   background: #eee;
+}
+
+.view_setting_btn_container {
+  width: 25%;
+  padding-left: 35px;
+}
+
+.view_setting_btn {
+  width: 100%;
+}
+
+.product_title {
+  margin-bottom: 8px;
+}
+
+.product_image_container {
+  border-radius: 8px;
+}
+
+.product_image {
+  height: 100%;
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
 }

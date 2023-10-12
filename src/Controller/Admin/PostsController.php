@@ -44,6 +44,7 @@ class PostsController extends AdminController
 
             // バリデーション
             if ($this->validate($data)) {
+                $data['image_path'] = null;
                 $post = $this->Posts->patchEntity($post, $data);
                 $this->set('post', $post);
                 return;
@@ -64,7 +65,7 @@ class PostsController extends AdminController
                 $image_path = 'tmp/' . $image->getClientFilename();
 
                 if (file_exists(WWW_ROOT . 'img/' . $image_path)) {
-                    $image_path . "（1）";
+                    $image_path = $image_path . "（1）";
                 }
                 $image->moveto(WWW_ROOT . 'img/' . $image_path);
 
@@ -148,52 +149,71 @@ class PostsController extends AdminController
      */
     public function edit($id = null)
     {
+        // エンティティの作成
         $post = $this->Posts->find('all', ['id' => $id])->first();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
+            // postの場合
 
+            // リクエストデータ取得
             $data = $this->request->getData();
 
-            $image = $data['image_path'];
-            $image_path = 'tmp/' . $image->getClientFilename();
-            if (file_exists(WWW_ROOT . 'img/' . $image_path)) {
-                $this->Flash->error(__('ファイルが存在します'));
+            // バリデーション
+            if ($this->validate($data)) {
+                $data['image_path'] = null;
+                $post = $this->Posts->patchEntity($post, $data);
+                $this->set('post', $post);
                 return;
             }
-            $image->moveto(WWW_ROOT . 'img/' . $image_path);
 
-            $data['image_path'] = $image_path;
+            // urlの確認
+            if ($data['url_flg'] == '0') {
+                $data['url'] = null;
+            }
+
+            // 画像の確認
+            if ($data['image_flg'] == '0') {
+                $data['image_name'] = null;
+                $data['image_path'] = null;
+            } else {
+                $image = $data['image_path'];
+
+                $image_path = 'tmp/' . $image->getClientFilename();
+
+                if (file_exists(WWW_ROOT . 'img/' . $image_path)) {
+                    $image_path = $image_path . "（1）";
+                }
+                $image->moveto(WWW_ROOT . 'img/' . $image_path);
+
+                $data['image_path'] = $image_path;
+            }
 
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
-                $this->Flash->success(__('The post has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The post could not be saved. Please, try again.'));
         }
-        $this->set(compact('post'));
+
+        $this->set('post', $post);
+        $this->render('add');
     }
 
     public function order()
     {
-        $posts = $this->Posts->find()->order(['post_order' => 'asc']);
-
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->getData();
             foreach ($data['product'] as $index => $product) {
                 $post = $this->Posts->find()->select(['id' => $product])->first();
 
                 $post = $this->Posts->patchEntity($post, ['post_order' => $data['order'][$index], 'status' => $data['status'][$index]]);
-                if ($this->Posts->save($post)) {
-                    // $this->Flash->success(__('The post has been saved.'));
-
-                    // return $this->redirect(['action' => 'index']);
+                if (!$this->Posts->save($post)) {
+                    return $this->redirect(['action' => 'index']);
                 }
             }
-
-
-            return $this->redirect(['action' => 'index']);
+            $posts = $this->Posts->find()->order(['post_order' => 'asc']);
+        } else {
+            $posts = $this->Posts->find()->order(['post_order' => 'asc']);
         }
 
         $this->set(compact('posts'));

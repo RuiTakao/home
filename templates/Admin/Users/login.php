@@ -20,7 +20,8 @@ $this->Form->setTemplates([
   <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
   <?= $this->Html->css(['reset']) ?>
   <?= $this->Html->css(['utility']) ?>
-  <?= $this->Html->css(['Admin/header']) ?>
+  <?= $this->Html->css(['Admin/layout/header']) ?>
+  <?= $this->Html->css(['Admin/layout/main']) ?>
   <?= $this->Html->css(['Admin/login']) ?>
 </head>
 
@@ -28,9 +29,6 @@ $this->Form->setTemplates([
   <header class="header">
     <div class="header_container container flex justify-space-between align-center">
       <h1 class="header_title">takaoFollio 管理画面</h1>
-      <?php if (!is_null($this->request->getAttribute('identity'))) : ?>
-        <?= $this->Html->link('ログアウト', ['controller' => 'users', 'action' => 'logout'], ['class' => 'logout flex justify-center align-center']) ?>
-      <?php endif; ?>
     </div>
   </header>
   <main class="main">

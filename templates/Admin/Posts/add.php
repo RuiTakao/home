@@ -90,7 +90,7 @@ $this->Form->setTemplates([
           ['value' => 1, 'text' => 'あり'],
           ['value' => 0, 'text' => 'なし']
         ], [
-          'value' => $post->url_flg ?? 1,
+          'value' => $post->image_flg ?? 1,
           'class' => 'add_product_form_input radio'
         ]) ?>
       </td>
@@ -126,7 +126,7 @@ $this->Form->setTemplates([
       <th class="add_product_table_head  pt32"></th>
       <td class="add_product_table_data  pt32">
         <?= $this->Form->button('登録する', [
-          'class' => 'btn btn_danger',
+          'class' => 'btn danger',
           'style' => 'width:100%;'
         ]) ?>
       </td>

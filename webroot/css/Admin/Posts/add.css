@@ -48,6 +48,7 @@
   height: 128px;
 }
 
-.add_product_table_row.is-hidden {
+/* js用のクラス */
+.is-hidden {
   display: none;
 }

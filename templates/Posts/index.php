@@ -33,7 +33,7 @@
 
           <?php
           /** 画像の有り無し判定 */
-          if (!$post->image_flg) {
+          if ($post->image_flg) {
             $image_path = h($post->image_path);
             $image_name = $post->image_name;
           } else {
@@ -56,7 +56,7 @@
               <p class="product_body mt16"><?= h($post->body) ?></p>
 
               <?php /** リンクの有り無し判定 */ ?>
-              <?php if (!$post->url_flg) : ?>
+              <?php if ($post->url_flg) : ?>
                 <?= $this->Html->link('アプリを見る', h($post->url), ['class' => 'product_access_btn btn info mt32', 'target' => '_blank']) ?>
               <?php endif; ?>
             </div>

@@ -2,10 +2,19 @@
 	ログイン
 *********************************/
 
+.main {
+  margin: 0;
+}
+
+.main_container {
+  padding: 0;
+}
+
 /** コンテンツ幅 */
 .main_container {
   width: 368px;
   padding-top: 160px;
+  margin: 0 auto;
 }
 
 /*********************************
@@ -13,6 +22,7 @@
 *********************************/
 .login_form table {
   border-collapse: collapse;
+  width: 100%;
 }
 
 .login_form table tr th {
