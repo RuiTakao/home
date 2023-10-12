@@ -20,8 +20,8 @@ class AddImageNameAddStatusAddPostOrderToPosts extends AbstractMigration
             'limit' => 255,
         ]);
         $table->addColumn('status', 'boolean', [
-            'default' => false,
-            'null' => false,
+            'default' => 0,
+            'null' => true,
         ]);
         $table->addColumn('post_order', 'integer', [
             'default' => 0,

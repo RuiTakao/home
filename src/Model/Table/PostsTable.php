@@ -64,36 +64,39 @@ class PostsTable extends Table
             ->notEmptyString('body', '説明は必須です。');
 
         $validator
-            ->integer('status')
-            ->notEmptyString('status');
-
-        $validator
-            ->maxLength('image_path', 255)
-            ->notEmptyFile('image_path', 'y');
-            // ->notEmptyFile('image_path', '画像が選択されていません。', function($context) {
-            //     if (!$context['data']['image_flg']) {
-            //         return true;
-            //     }
-            //     return false;
-            // });
-
-        // $validator
-        //     ->boolean('image_flg')
-        //     ->notEmptyFile('image_flg');
+            ->integer('url_flg')
+            ->notEmptyString('url_flg');
 
         $validator
             ->maxLength('url', 255)
             ->url('url', 'URLを入力してください。')
-            ->notEmptyString('url', 'URLを入力してください。', function($context) {
-                if (!$context['data']['url_flg']) {
+            ->notEmptyString('url', 'URLを入力してください。', function ($context) {
+                if ($context['data']['url_flg']) {
                     return true;
                 }
                 return false;
             });
 
-        // $validator
-        //     ->boolean('url_flg')
-        //     ->notEmptyString('url_flg');
+        $validator
+            ->integer('image_flg')
+            ->notEmptyString('image_flg');
+
+        $validator
+            ->notEmptyFile('image_path', '画像が選択されていません。', function ($context) {
+                if ($context['data']['image_flg']) {
+                    return true;
+                }
+                return false;
+            });
+
+        $validator
+            ->maxLength('image_name', 255)
+            ->notEmptyString('image_name', '画像名を入力してください。', function ($context) {
+                if ($context['data']['image_flg']) {
+                    return true;
+                }
+                return false;
+            });
 
         return $validator;
     }

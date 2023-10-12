@@ -120,9 +120,6 @@ $this->Form->setTemplates([
           'required' => false,
           'div' => true
         ]) ?>
-        <?php if ($post->getError('image_path')) : ?>
-          <p class="error-message"><?= $post->getError('image_path')['_empty'] ?></p>
-        <?php endif; ?>
       </td>
     </tr>
     <tr class="add_product_table_row">

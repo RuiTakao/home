@@ -23,23 +23,7 @@ class PostsController extends AdminController
     {
         $posts = $this->Posts->find()->order(['post_order' => 'asc']);
 
-        $this->set(compact('posts'));
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id Post id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $post = $this->Posts->get($id, [
-            'contain' => [],
-        ]);
-
-        $this->set(compact('post'));
+        $this->set('posts', $posts);
     }
 
     /**
@@ -49,29 +33,53 @@ class PostsController extends AdminController
      */
     public function add()
     {
+        // エンティティの作成
         $post = $this->Posts->newEmptyEntity();
-        $errors = [];
-        if ($this->request->is('post')) {
 
+        if ($this->request->is('post')) {
+            // postの場合
+
+            // リクエストデータ取得
             $data = $this->request->getData();
 
-            if (($data['url_flg'] && $data['url'] != "") || ($data['image_flg'] && $data['image_path']) || ($data['image_flg'] && $data['image_name'])) {
-                // $this->Session->setFlash('My message', 'alert');
-                // return $this->redirect(['action' => 'index']);
+            // バリデーション
+            if ($this->validate($data)) {
+                $post = $this->Posts->patchEntity($post, $data);
+                $this->set('post', $post);
+                return;
             }
-            // else if (!$data['image_flg'] && ) {
 
-            // }
+            // urlの確認
+            if ($data['url_flg'] == '0') {
+                $data['url'] = null;
+            }
 
-            // $image = $data['image_path'];
-            // $image_path = 'tmp/' . $image->getClientFilename();
-            // if (file_exists(WWW_ROOT . 'img/' . $image_path)) {
-            //     $this->Flash->error(__('ファイルが存在します'));
-            //     return;
-            // }
-            // $image->moveto(WWW_ROOT . 'img/' . $image_path);
+            // 画像の確認
+            if ($data['image_flg'] == '0') {
+                $data['image_name'] = null;
+                $data['image_path'] = null;
+            } else {
+                $image = $data['image_path'];
 
-            $data['image_path'] = '';
+                $image_path = 'tmp/' . $image->getClientFilename();
+
+                if (file_exists(WWW_ROOT . 'img/' . $image_path)) {
+                    $image_path . "（1）";
+                }
+                $image->moveto(WWW_ROOT . 'img/' . $image_path);
+
+                $data['image_path'] = $image_path;
+            }
+
+            $data['status'] = 0;
+
+            $query = $this->Posts->find();
+            if (count($query->toArray()) > 0) {
+                $query = $query->select(['post_order' => $query->func()->max('post_order')])->first();
+                $data['post_order'] = $query->post_order + 1;
+            } else {
+                $data['post_order'] = 1;
+            }
 
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
@@ -79,8 +87,56 @@ class PostsController extends AdminController
                 return $this->redirect(['action' => 'index']);
             }
         }
-        $this->set(['errors' => $errors]);
-        $this->set(compact('post'));
+
+        $this->set('post', $post);
+    }
+
+    private function validate($data)
+    {
+
+        // あり得ない値が入ってきた場合
+        if ($data['url_flg'] != '0' && $data['url_flg'] != '1') {
+            return $this->redirect(['action' => 'index']);
+        }
+        if ($data['image_flg'] != '0' && $data['image_flg'] != '1') {
+            return $this->redirect(['action' => 'index']);
+        }
+
+        // エラーカウント
+        $errors = 0;
+
+        // 作品名が未入力の場合
+        if ($data['title'] == '') {
+            $errors++;
+        }
+
+        // 説明が未入力の場合
+        if ($data['body'] == '') {
+            $errors++;
+        }
+
+        // urlフラグがtrueでurlが未入力の場合
+        if ($data['url_flg'] == '1' && $data['url'] == '') {
+            $errors++;
+        }
+
+        // 画像フラグがtrueで画像名が未入力の場合
+        if ($data['image_flg'] == '1' && $data['image_name'] == '') {
+            $errors++;
+        }
+        // 画像フラグがtrueで画像が未選択の場合
+        if (
+            ($data['image_flg'] == '1' && $data['image_path']->getClientFilename() == '') ||
+            ($data['image_flg'] == '1' && $data['image_path']->getClientMediaType() == '')
+        ) {
+            $data['image_path'] = null;
+            $errors++;
+        }
+
+        // エラーの数によってバリデーションを実行させる
+        if ($errors > 0) {
+            return true;
+        }
     }
 
     /**
@@ -127,16 +183,16 @@ class PostsController extends AdminController
             $data = $this->request->getData();
             foreach ($data['product'] as $index => $product) {
                 $post = $this->Posts->find()->select(['id' => $product])->first();
-    
+
                 $post = $this->Posts->patchEntity($post, ['post_order' => $data['order'][$index], 'status' => $data['status'][$index]]);
                 if ($this->Posts->save($post)) {
                     // $this->Flash->success(__('The post has been saved.'));
-    
+
                     // return $this->redirect(['action' => 'index']);
                 }
             }
-    
-    
+
+
             return $this->redirect(['action' => 'index']);
         }
 
