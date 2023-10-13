@@ -30,7 +30,7 @@ $this->Form->setTemplates([
   <table class="add_product_table">
     <tr class="add_product_table_row">
       <th class="add_product_table_head">
-        <label class="add_product_form_title" for="title">作品名</label>
+        <label class="add_product_form_title c-pointer" for="title">作品名</label>
       </th>
       <td class="add_product_table_data">
         <?= $this->Form->control('title', [
@@ -43,7 +43,7 @@ $this->Form->setTemplates([
     </tr>
     <tr class="add_product_table_row">
       <th class="add_product_table_head">
-        <label class="add_product_form_title" for="body">説明</label>
+        <label class="add_product_form_title c-pointer" for="body">説明</label>
       </th>
       <td class="add_product_table_data pt32">
         <?= $this->Form->control('body', [
@@ -64,13 +64,13 @@ $this->Form->setTemplates([
           ['value' => 0, 'text' => 'なし']
         ], [
           'value' => $post->url_flg ?? 1,
-          'class' => 'add_product_form_input radio'
+          'class' => 'add_product_form_input radio c-pointer'
         ]) ?>
       </td>
     </tr>
     <tr id="url_input" class="add_product_table_row">
       <th class="add_product_table_head  pt32">
-        <label class="add_product_form_title" for="url">ＵＲＬ</label>
+        <label class="add_product_form_title c-pointer" for="url">ＵＲＬ</label>
       </th>
       <td class="add_product_table_data  pt32">
         <?= $this->Form->control('url', [
@@ -91,13 +91,13 @@ $this->Form->setTemplates([
           ['value' => 0, 'text' => 'なし']
         ], [
           'value' => $post->image_flg ?? 1,
-          'class' => 'add_product_form_input radio'
+          'class' => 'add_product_form_input radio c-pointer'
         ]) ?>
       </td>
     </tr>
     <tr id="image_name_input" class="add_product_table_row">
       <th class="add_product_table_head  pt32">
-        <label class="add_product_form_title" for="image_name">画像名</label>
+        <label class="add_product_form_title c-pointer" for="image_name">画像名</label>
       </th>
       <td class="add_product_table_data  pt32">
         <?= $this->Form->control('image_name', [

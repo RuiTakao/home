@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Controller\Admin\AdminController;
+use Cake\Database\Exception\DatabaseException;
+use Cake\ORM\TableRegistry;
 
 /**
  * Posts Controller
@@ -84,7 +86,7 @@ class PostsController extends AdminController
 
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
-
+                $this->Flash->success('作品を追加しました。');
                 return $this->redirect(['action' => 'index']);
             }
         }
@@ -190,7 +192,7 @@ class PostsController extends AdminController
 
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
-
+                $this->Flash->success('作品を編集しました。');
                 return $this->redirect(['action' => 'index']);
             }
         }
@@ -202,21 +204,40 @@ class PostsController extends AdminController
     public function order()
     {
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $data = $this->request->getData();
-            foreach ($data['product'] as $index => $product) {
-                $post = $this->Posts->find()->select(['id' => $product])->first();
 
-                $post = $this->Posts->patchEntity($post, ['post_order' => $data['order'][$index], 'status' => $data['status'][$index]]);
-                if (!$this->Posts->save($post)) {
-                    return $this->redirect(['action' => 'index']);
+            $connection = TableRegistry::getTableLocator()->get($this->Posts->getAlias())->getConnection();
+
+            try {
+                $connection->begin();
+
+                $data = $this->request->getData();
+
+
+                foreach ($data['product'] as $index => $product) {
+                    $post = $this->Posts->find()->select(['id' => $product])->first();
+
+                    $post = $this->Posts->patchEntity($post, ['post_order' => $data['order'][$index], 'status' => $data['status'][$index]]);
+                    if (!$this->Posts->save($post)) {
+                        throw new DatabaseException();
+                    }
                 }
+
+                $connection->commit();
+
+                $this->Flash->success('設定を反映しました。');
+                $posts = $this->Posts->find()->order(['post_order' => 'asc']);
+                $this->set('posts', $posts);
+                return $this->redirect(['action' => 'order']);
+
+            } catch (DatabaseException $e) {
+                $connection->rollback();
+                $this->Flash->error('設定の更新が失敗しました。');
+                return $this->redirect(['action' => 'index']);
             }
-            $posts = $this->Posts->find()->order(['post_order' => 'asc']);
-        } else {
-            $posts = $this->Posts->find()->order(['post_order' => 'asc']);
         }
 
-        $this->set(compact('posts'));
+        $posts = $this->Posts->find()->order(['post_order' => 'asc']);
+        $this->set('posts', $posts);
     }
 
     /**

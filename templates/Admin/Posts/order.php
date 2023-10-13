@@ -35,7 +35,7 @@ $this->Form->setTemplates([
         ?>
 
         <li class="product_order_item">
-          <div class="product js-productOrder flex justify-space-between" draggable="true">
+          <div class="product js-productOrder flex justify-space-between c-pointer" draggable="true">
 
             <div class="product_detail_container">
               <p class="product_title"><?= $post->title ?></p>
@@ -43,7 +43,7 @@ $this->Form->setTemplates([
                 ['value' => 1, 'text' => '表示'],
                 ['value' => 0, 'text' => '非表示'],
               ], [
-                'class' => 'product_status',
+                'class' => 'product_status c-pointer',
                 'value' => $post->status,
                 'hiddenField' => false
               ]) ?>

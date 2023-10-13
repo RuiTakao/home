@@ -39,3 +39,7 @@
 .aside_link:hover {
   background: #ccc;
 }
+
+.aside_link.is-active {
+  background: #ccc;
+}
