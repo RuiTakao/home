@@ -19,12 +19,12 @@
   ]) ?>
   <?php /** css 各ページ */ ?>
   <?= $this->fetch('css') ?>
-  
+
   <?php /** js */ ?>
   <?php if ($this->fetch('script')) : ?>
-  <!-- js -->
+    <!-- js -->
     <?= $this->fetch('script') ?>
-<?php endif; ?>
+  <?php endif; ?>
 </head>
 
 <body>
@@ -63,13 +63,7 @@
       <?= $this->fetch('content') ?>
     </div>
   </main>
-  <?php if ($message != ''): ?>
-  <script>
-    window.onload = () => {
-      alert('<?= $message ?>');
-    }
-  </script>
-  <?php endif; ?>
+  <?= $this->element('flash/message') ?>
 </body>
 
 </html>

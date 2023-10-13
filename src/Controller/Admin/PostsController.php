@@ -86,7 +86,7 @@ class PostsController extends AdminController
 
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
-                $this->Flash->success('作品を追加しました。');
+                $this->session->write('message', '作品を追加しました。');
                 return $this->redirect(['action' => 'index']);
             }
         }
@@ -192,7 +192,7 @@ class PostsController extends AdminController
 
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
-                $this->Flash->success('作品を編集しました。');
+                $this->session->write('message', '作品を編集しました。');
                 return $this->redirect(['action' => 'index']);
             }
         }
@@ -224,14 +224,13 @@ class PostsController extends AdminController
 
                 $connection->commit();
 
-                $this->Flash->success('設定を反映しました。');
+                $this->session->write('message', '設定を反映しました。');
                 $posts = $this->Posts->find()->order(['post_order' => 'asc']);
                 $this->set('posts', $posts);
                 return $this->redirect(['action' => 'order']);
-
             } catch (DatabaseException $e) {
                 $connection->rollback();
-                $this->Flash->error('設定の更新が失敗しました。');
+                $this->session->write('message', '設定の更新が失敗しました。');
                 return $this->redirect(['action' => 'index']);
             }
         }

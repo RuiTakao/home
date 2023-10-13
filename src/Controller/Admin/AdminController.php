@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,6 +15,7 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller\Admin;
 
 use Cake\Controller\Controller;
@@ -44,6 +46,9 @@ class AdminController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->loadComponent('Authentication.Authentication');
+
+        $session = $this->session = $this->getRequest()->getSession();
+        $this->set('session', $session);
 
         /*
          * Enable the following component for recommended CakePHP form protection settings.
