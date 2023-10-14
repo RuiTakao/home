@@ -77,7 +77,8 @@ $this->Form->setTemplates([
           'id' => 'url',
           'class' => 'add_product_form_input text',
           'label' => false,
-          'required' => false
+          'required' => false,
+          'value' => !$post->url_flg ? '' : $post->url
         ]) ?>
       </td>
     </tr>
@@ -104,7 +105,8 @@ $this->Form->setTemplates([
           'id' => 'image_name',
           'class' => 'add_product_form_input text',
           'label' => false,
-          'required' => false
+          'required' => false,
+          'value' => !$post->image_flg ? '' : $post->image_name
         ]) ?>
       </td>
     </tr>
@@ -112,14 +114,19 @@ $this->Form->setTemplates([
       <th class="add_product_table_head  pt32">
         <label class="add_product_form_title" for="image_path">画像</label>
       </th>
-      <td class="add_product_table_data  pt32">
+      <td class="add_product_table_data pt32">
+        <?php $p = $post->image_path ?>
         <?= $this->Form->control('image_path', [
           'class' => 'dropify',
           'type' => 'file',
           'label' => false,
           'required' => false,
-          'div' => true
+          'div' => true,
+          'data-default-file' => $post->image_path
         ]) ?>
+        <?php if (!is_null($image_error)) : ?>
+          <div class="error-message"><?= $image_error ?></div>
+        <?php endif; ?>
       </td>
     </tr>
     <tr class="add_product_table_row">

@@ -69,7 +69,12 @@ class PostsTable extends Table
 
         $validator
             ->maxLength('url', 255)
-            ->url('url', 'URLを入力してください。')
+            ->url('url', 'URLを入力してください。', function ($context) {
+                if ($context['data']['url_flg']) {
+                    return true;
+                }
+                return false;
+            })
             ->notEmptyString('url', 'URLを入力してください。', function ($context) {
                 if ($context['data']['url_flg']) {
                     return true;
@@ -80,14 +85,6 @@ class PostsTable extends Table
         $validator
             ->integer('image_flg')
             ->notEmptyString('image_flg');
-
-        $validator
-            ->notEmptyFile('image_path', '画像が選択されていません。', function ($context) {
-                if ($context['data']['image_flg']) {
-                    return true;
-                }
-                return false;
-            });
 
         $validator
             ->maxLength('image_name', 255)

@@ -10,6 +10,8 @@
 #webroot
 webroot/img/tmp/*
 !webroot/img/tmp/.gitkeep
+webroot/img/storage/*
+!webroot/img/storage/.gitkeep
 
 # OS generated files #
 ######################
