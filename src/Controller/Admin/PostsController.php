@@ -16,6 +16,14 @@ use Cake\ORM\TableRegistry;
  */
 class PostsController extends AdminController
 {
+
+    public function initialize(): void
+    {
+        parent::initialize();
+
+        $this->connection = TableRegistry::getTableLocator()->get($this->Posts->getAlias())->getConnection();
+    }
+
     /**
      * Index method
      *
@@ -76,17 +84,36 @@ class PostsController extends AdminController
 
             $data['status'] = 0;
 
+            // try {
+                // } catch (DatabaseException $e) {
+                    //     $this->session->write('message', 'データベースに障害が起こりました。');
+                    //     return $this->redirect(['action' => 'index']);
+                    // }
+                    try {
             $query = $this->Posts->find();
-            if (count($query->toArray()) > 0) {
-                $query = $query->select(['post_order' => $query->func()->max('post_order')])->first();
+            $query = $query->select(['post_order' => $query->func()->max('post_order')])->first();
+            if (!empty($query)) {
                 $data['post_order'] = $query->post_order + 1;
             } else {
                 $data['post_order'] = 1;
             }
+        }catch (DatabaseException $e) {
+                $this->session->write('message', 'データベースに障害が起こりました。');
+                return $this->redirect(['action' => 'index']);
+            }
 
-            $post = $this->Posts->patchEntity($post, $data);
-            if ($this->Posts->save($post)) {
-                $this->session->write('message', '作品を追加しました。');
+            try {
+                $this->connection->begin();
+
+                $post = $this->Posts->patchEntity($post, $data);
+                if ($this->Posts->save($post)) {
+                    $this->session->write('message', '作品を追加しました。');
+                }
+                $this->connection->commit();
+                return $this->redirect(['action' => 'index']);
+            }catch (DatabaseException $e) {
+                $this->connection->rollback();
+                $this->session->write('message', '登録に失敗しました。');
                 return $this->redirect(['action' => 'index']);
             }
         }
@@ -190,9 +217,17 @@ class PostsController extends AdminController
                 $data['image_path'] = $image_path;
             }
 
-            $post = $this->Posts->patchEntity($post, $data);
-            if ($this->Posts->save($post)) {
-                $this->session->write('message', '作品を編集しました。');
+            try {
+                $this->connection->begin();
+
+                $post = $this->Posts->patchEntity($post, $data);
+                if ($this->Posts->save($post)) {
+                    $this->session->write('message', '作品を編集しました。');
+                }
+                $this->connection->commit();
+            }catch (DatabaseException $e) {
+                $this->connection->rollback();
+                $this->session->write('message', '編集に失敗しました。');
                 return $this->redirect(['action' => 'index']);
             }
         }
@@ -205,13 +240,10 @@ class PostsController extends AdminController
     {
         if ($this->request->is(['patch', 'post', 'put'])) {
 
-            $connection = TableRegistry::getTableLocator()->get($this->Posts->getAlias())->getConnection();
+            $data = $this->request->getData();
 
             try {
-                $connection->begin();
-
-                $data = $this->request->getData();
-
+                $this->connection->begin();
 
                 foreach ($data['product'] as $index => $product) {
                     $post = $this->Posts->find()->select(['id' => $product])->first();
@@ -222,14 +254,14 @@ class PostsController extends AdminController
                     }
                 }
 
-                $connection->commit();
+                $this->connection->commit();
 
                 $this->session->write('message', '設定を反映しました。');
                 $posts = $this->Posts->find()->order(['post_order' => 'asc']);
                 $this->set('posts', $posts);
                 return $this->redirect(['action' => 'order']);
             } catch (DatabaseException $e) {
-                $connection->rollback();
+                $this->connection->rollback();
                 $this->session->write('message', '設定の更新が失敗しました。');
                 return $this->redirect(['action' => 'index']);
             }

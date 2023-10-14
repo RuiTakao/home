@@ -56,6 +56,7 @@
         <li class="aside_link_item"><?= $this->Html->link('表示の設定', ['controller' => 'posts', 'action' => 'order'], ['class' => 'aside_link' . asideLink($param, 'order')]) ?></li>
         <li class="aside_link_item"><a class="aside_link" href="#">プロフ設定</a></li>
       </ul>
+      <?= $this->Html->link('プレビュー','/posts/index', ['class' => 'preview_link mt32 fw600 text_center fz16', 'target' => '_blank']) ?>
     </nav>
   </aside>
   <main class="main">

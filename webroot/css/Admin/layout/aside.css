@@ -23,7 +23,7 @@
 
 /** ナビゲーションリンクアイテム */
 .aside_link_item:not(:first-child) {
-  margin-top: 16px;
+  margin-top: 32px;
 }
 
 /** ナビゲーションリンク */
@@ -42,4 +42,15 @@
 
 .aside_link.is-active {
   background: #ccc;
+}
+
+.preview_link {
+    background: #dc3545;
+    display: block;
+    width: 85%;
+    color: #fff;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 16px;
+    margin-top: 64px;
 }
