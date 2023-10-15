@@ -18,6 +18,8 @@ use Cake\Routing\Router;
 class PostsController extends AdminController
 {
 
+    const VALIDATE_MESSAGE = "入力に不備があります。";
+
     public function initialize(): void
     {
         parent::initialize();
@@ -47,39 +49,99 @@ class PostsController extends AdminController
         // エンティティの作成
         $post = $this->Posts->newEmptyEntity();
 
+        // postの場合
         if ($this->request->is('post')) {
-            // postの場合
+            // 登録処理
+            return $this->save_property($post);
+        }
 
-            // リクエストデータ取得
-            $data = $this->request->getData();
+        // 画像のエラーメッセージ
+        $this->set('image_error', null);
 
-            // ステータスはデフォルトでfalse
-            $data['status'] = false;
+        $this->set('post', $post);
+    }
 
-            // バリデーション
-            if ($this->validate($data, $post)) {
-                return;
+    /**
+     * Edit method
+     *
+     * @param string|null $id Post id.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        // エンティティの作成
+        $post = $this->Posts->find('all', ['id' => $id])->first();
+
+        // postの場合
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            // 登録処理
+            return $this->save_property($post);
+        }
+
+        // 画像のエラーメッセージ
+        $this->set('image_error', null);
+
+        $this->set('post', $post);
+        $this->render('add');
+    }
+
+    /**
+     * save_property Method
+     * 
+     * バリデーション処理
+     * 
+     * @param request
+     * @param entity
+     * 
+     * @return bool
+     */
+    private function save_property($post)
+    {
+
+        // リクエストデータ取得
+        $data = $this->request->getData();
+
+        // バリデーション
+        if ($this->validate($data, $post)) {
+            if ($this->request->getParam('action') == 'edit') {
+                $this->render('add');
+            }
+            return;
+        }
+
+        /**
+         * バリデーションエラー時は以下は通らない
+         * 
+         * status、url（url_flg = false）、image_name（image_flg = false）、image_path（image_flg = false）
+         * の場合の処理は以下で強制的にnullを入れる為、バリデーションチェックは行わない
+         */
+
+        try {
+
+            // トランザクション開始
+            $this->connection->begin();
+
+            // url
+            // urlフラグがfalesならurlにnullを入れる
+            if (!$data['url_flg']) {
+                $data['url'] = null;
             }
 
-            try {
-
-                // トランザクション開始
-                $this->connection->begin();
-
-                // url
-                // urlフラグがfalesならurlにnullを入れる
-                if (!$data['url_flg']) {
-                    $data['url'] = null;
-                }
-
-                // 画像名
-                // 画像フラグがfalesなら画像名にnullを入れる
-                if (!$data['image_flg']) {
-                    $data['image_name'] = null;
-                }
-
+            // 画像名
+            // 画像フラグがfalesなら画像名、画像パスにnullを入れる
+            if (!$data['image_flg']) {
+                $data['image_name'] = null;
+                $data['image_path'] = null;
+            } else {
                 // 画像
-                $data['image_path'] = $this->save_image_path($data);
+                $data['image_path'] = $this->save_image_path();
+            }
+
+
+            if ($this->request->getParam('action') == 'add') {
+                // ステータスはデフォルトでfalse
+                $data['status'] = false;
 
                 $query = $this->Posts->find();
                 $query = $query->select(['post_order' => $query->func()->max('post_order')])->first();
@@ -88,45 +150,47 @@ class PostsController extends AdminController
                 } else {
                     $data['post_order'] = 1;
                 }
-
-                $post = $this->Posts->patchEntity($post, $data);
-                if ($this->Posts->save($post)) {
-                    $this->session->write('message', '作品を追加しました。');
-                }
-                $this->connection->commit();
-                $this->session->delete('tmp_image');
-                return $this->redirect(['action' => 'index']);
-            } catch (DatabaseException $e) {
-                $this->connection->rollback();
-                $this->session->write('message', '登録に失敗しました。');
-                return $this->redirect(['action' => 'index']);
             }
-        }
 
-        // 画像のエラーメッセージ
-        $this->set('image_error', null);
-        
-        $this->set('post', $post);
+            $post = $this->Posts->patchEntity($post, $data);
+            if ($this->Posts->save($post)) {
+                $this->session->write('message', '作品を追加しました。');
+                $this->connection->commit();
+                $this->tmp_image_delete();
+                return $this->redirect(['action' => 'index']);
+            } else {
+                throw new DatabaseException;
+            }
+        } catch (DatabaseException $e) {
+            $this->connection->rollback();
+            $this->session->write('message', '登録に失敗しました。');
+            return $this->redirect(['action' => 'index']);
+        }
     }
 
-    private function save_image_path($data)
+    /**
+     * save_image_path Method
+     * 
+     * バリデーション処理
+     * 
+     * @param request
+     * @param entity
+     * 
+     * @return bool
+     */
+    private function save_image_path()
     {
-        // 画像フラグがtrueの場合
-        if ($data['image_flg']) {
+        // 画像データ取得
+        // バリデーションで未入力チェックはしているのでここでは行わない
+        $image = str_replace('img/tmp/', '', $this->session->read('tmp_image'));
 
-            // 画像データ取得
-            // バリデーションで未入力チェックはしているのでここでは行わない
-            $image = $data['image_path'];
+        // 画像パス
+        $image_path = 'storage/' . $image;
 
-            // 画像パス
-            $image_path = 'storage/' . $image->getClientFilename();
+        // 画像保存
+        copy($this->session->read('tmp_image'), 'img/' . $image_path);
 
-            $image->moveto(WWW_ROOT . 'img/' . $image_path);
-
-            return $image_path;
-        }
-
-        return null;
+        return $image_path;
     }
 
     /**
@@ -141,7 +205,8 @@ class PostsController extends AdminController
      */
     private function validate($data, $post): bool
     {
-        $image_error = null;
+
+        $message = self::VALIDATE_MESSAGE;
 
         // あり得ない値が入ってきた場合
         if ($data['url_flg'] != '0' && $data['url_flg'] != '1') {
@@ -172,39 +237,62 @@ class PostsController extends AdminController
             $errors++;
         }
 
-        // 画像フラグがtrueで画像名が未入力の場合
-        if ($data['image_flg'] && $data['image_name'] == '') {
-            $errors++;
-        }
-        // 画像フラグがtrueで画像が未選択の場合
-        if (
-            ($data['image_flg'] && $data['image_path']->getClientFilename() == '') ||
-            ($data['image_flg'] && $data['image_path']->getClientMediaType() == '')
-        ) {
-            $image_error = '画像が選択されていません。';
-            $errors++;
-        } elseif ($data['image_path']->getClientFilename() != '' || $data['image_path']->getClientMediaType() != '') {
-            if (file_exists(WWW_ROOT . 'img/storage/' . $data['image_path']->getClientFilename())) {
-                $image_error = '画像が重複しています。画像を変更するか、画像のファイル名を変更してください。';
-                $this->session->write('message', $image_error);
+        $image_error = null;
+
+        // 画像フラグがtrueの場合
+        if ($data['image_flg']) {
+
+            // 画像名が未入力でエラー
+            if ($data['image_name'] == '') {
                 $errors++;
             }
+
+            if ($data['image_path']->getClientFilename() == '' || $data['image_path']->getClientMediaType() == '') {
+                // 画像が未設定
+
+                // 一時保存画像の画像のパス
+                $data['image_path'] = $this->tmp_image_path($data);
+                // 一時保存画像の画像のパスも無ければエラー
+                if (is_null($data['image_path'])) {
+                    $image_error = '画像が設定されていません。';
+                    $errors++;
+                }
+            } else {
+                // 画像がある場合
+
+                $filename = pathinfo($data['image_path']->getClientFilename())['extension'];
+                $extention = ['png', 'jpg', 'jpeg'];
+
+                if (!in_array($filename, $extention)) {
+                    // 拡張子が無効です。
+                    $image_error = '拡張子が無効です。';
+
+                    $data['image_path'] = null;
+                    $this->tmp_image_delete();
+                    $errors++;
+                } elseif (file_exists(WWW_ROOT . 'img/storage/' . $data['image_path']->getClientFilename())) {
+                    // 画像重複エラー
+                    $image_error = '画像が重複しています。画像を変更するか、画像のファイル名を変更してください。';
+                    $message = $image_error;
+
+                    $data['image_path'] = $this->tmp_image_path($data);
+                    $errors++;
+                } else {
+                    $data['image_path'] = $this->tmp_image_path($data);
+                }
+            }
+        } else {
+            $data['image_path'] = null;
+            $this->tmp_image_delete();
         }
 
         // バリデーションカウントが0より多い場合、バリデーション失敗時の処理実行
         if ($errors > 0) {
 
-            // バリデーション失敗時の処理
-            if (is_null($image_error)) {
-                $data['image_path'] = $this->image_when_validationFailed($data);
-                $this->session->write('message', '入力に不備があります。');
-                $this->set('image_error', $image_error);
-            } else {
-                $data['image_path'] = null;
-            }
-
             $post = $this->Posts->patchEntity($post, $data);
             $this->set('post', $post);
+            $this->set('image_error', $image_error);
+            $this->session->write('message', $message);
             return true;
         }
 
@@ -212,15 +300,15 @@ class PostsController extends AdminController
     }
 
     /**
-     * image_when_validationFailed Method
+     * tmp_image_path Method
      * 
-     * バリデーション失敗時の画像の処理
+     * 一時保存画像の画像のパス
      * 
      * @param request
      * 
      * @return string|null
      */
-    private function image_when_validationFailed($data): string|null
+    private function tmp_image_path($data): string|null
     {
         if ($data['image_flg']) {
             // 画像フラグ有りの場合
@@ -270,71 +358,12 @@ class PostsController extends AdminController
         return null;
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Post id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
+    private function tmp_image_delete(): void
     {
-        // エンティティの作成
-        $post = $this->Posts->find('all', ['id' => $id])->first();
-
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            // postの場合
-
-            // リクエストデータ取得
-            $data = $this->request->getData();
-
-            // バリデーション
-            if ($this->validate($data, $post)) {
-                $data['image_path'] = null;
-                $post = $this->Posts->patchEntity($post, $data);
-                $this->set('post', $post);
-                return;
-            }
-
-            // urlの確認
-            if ($data['url_flg'] == '0') {
-                $data['url'] = null;
-            }
-
-            // 画像の確認
-            if ($data['image_flg'] == '0') {
-                $data['image_name'] = null;
-                $data['image_path'] = null;
-            } else {
-                $image = $data['image_path'];
-
-                $image_path = 'tmp/' . $image->getClientFilename();
-
-                if (file_exists(WWW_ROOT . 'img/' . $image_path)) {
-                    $image_path = $image_path . "（1）";
-                }
-                $image->moveto(WWW_ROOT . 'img/' . $image_path);
-
-                $data['image_path'] = $image_path;
-            }
-
-            try {
-                $this->connection->begin();
-
-                $post = $this->Posts->patchEntity($post, $data);
-                if ($this->Posts->save($post)) {
-                    $this->session->write('message', '作品を編集しました。');
-                }
-                $this->connection->commit();
-            } catch (DatabaseException $e) {
-                $this->connection->rollback();
-                $this->session->write('message', '編集に失敗しました。');
-                return $this->redirect(['action' => 'index']);
-            }
+        if ($this->session->read('tmp_image')) {
+            unlink($this->session->read('tmp_image'));
+            $this->session->delete('tmp_image');
         }
-
-        $this->set('post', $post);
-        $this->render('add');
     }
 
     public function order()
