@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\Admin\AdminController;
 use Cake\Database\Exception\DatabaseException;
+use Cake\Event\EventInterface;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 
@@ -25,6 +26,15 @@ class PostsController extends AdminController
         parent::initialize();
 
         $this->connection = TableRegistry::getTableLocator()->get($this->Posts->getAlias())->getConnection();
+    }
+
+    public function beforeFilter(EventInterface $event)
+    {
+        parent::beforeFilter($event);
+
+        if ($this->request->is('get')) {
+            $this->tmp_image_delete();
+        }
     }
 
     /**
@@ -239,52 +249,65 @@ class PostsController extends AdminController
 
         $image_error = null;
 
-        // 画像フラグがtrueの場合
-        if ($data['image_flg']) {
+        if ($this->request->getParam('action') == 'add') {
+            // 画像フラグがtrueの場合
+            if ($data['image_flg']) {
 
-            // 画像名が未入力でエラー
-            if ($data['image_name'] == '') {
-                $errors++;
-            }
-
-            if ($data['image_path']->getClientFilename() == '' || $data['image_path']->getClientMediaType() == '') {
-                // 画像が未設定
-
-                // 一時保存画像の画像のパス
-                $data['image_path'] = $this->tmp_image_path($data);
-                // 一時保存画像の画像のパスも無ければエラー
-                if (is_null($data['image_path'])) {
-                    $image_error = '画像が設定されていません。';
+                // 画像名が未入力でエラー
+                if ($data['image_name'] == '') {
                     $errors++;
+                }
+
+                if ($data['image_path']->getClientFilename() == '' || $data['image_path']->getClientMediaType() == '') {
+                    // 画像が未設定
+
+                    // 一時保存画像の画像のパス
+                    $data['image_path'] = $this->tmp_image_path($data);
+                    // 一時保存画像の画像のパスも無ければエラー
+                    if (is_null($data['image_path'])) {
+                        $image_error = '画像が設定されていません。';
+                        $errors++;
+                    } else {
+                        $tmp_filename = str_replace('img/tmp/', '', $this->session->read('tmp_image'));
+                        if (file_exists(WWW_ROOT . 'img/storage/' . $tmp_filename)) {
+                            // 画像重複エラー
+                            $image_error = '画像が重複しています。画像を変更するか、画像のファイル名を変更してください。';
+                            $message = $image_error;
+
+                            $data['image_path'] = $this->session->read('tmp_image');
+                            $errors++;
+                        }
+                    }
+                } else {
+                    // 画像がある場合
+
+                    $filename = pathinfo($data['image_path']->getClientFilename())['extension'];
+                    $extention = ['png', 'jpg', 'jpeg'];
+
+                    if (!in_array($filename, $extention)) {
+                        // 拡張子が無効です。
+                        $image_error = '拡張子が無効です。';
+
+                        $data['image_path'] = null;
+                        $this->tmp_image_delete();
+                        $errors++;
+                    } elseif (file_exists(WWW_ROOT . 'img/storage/' . $data['image_path']->getClientFilename())) {
+                        // 画像重複エラー
+                        $image_error = '画像が重複しています。画像を変更するか、画像のファイル名を変更してください。';
+                        $message = $image_error;
+
+                        $data['image_path'] = $this->tmp_image_path($data);
+                        $errors++;
+                    } else {
+                        $data['image_path'] = $this->tmp_image_path($data);
+                    }
                 }
             } else {
-                // 画像がある場合
-
-                $filename = pathinfo($data['image_path']->getClientFilename())['extension'];
-                $extention = ['png', 'jpg', 'jpeg'];
-
-                if (!in_array($filename, $extention)) {
-                    // 拡張子が無効です。
-                    $image_error = '拡張子が無効です。';
-
-                    $data['image_path'] = null;
-                    $this->tmp_image_delete();
-                    $errors++;
-                } elseif (file_exists(WWW_ROOT . 'img/storage/' . $data['image_path']->getClientFilename())) {
-                    // 画像重複エラー
-                    $image_error = '画像が重複しています。画像を変更するか、画像のファイル名を変更してください。';
-                    $message = $image_error;
-
-                    $data['image_path'] = $this->tmp_image_path($data);
-                    $errors++;
-                } else {
-                    $data['image_path'] = $this->tmp_image_path($data);
-                }
+                $data['image_path'] = null;
+                $this->tmp_image_delete();
             }
-        } else {
-            $data['image_path'] = null;
-            $this->tmp_image_delete();
         }
+
 
         // バリデーションカウントが0より多い場合、バリデーション失敗時の処理実行
         if ($errors > 0) {
