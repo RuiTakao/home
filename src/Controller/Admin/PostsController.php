@@ -81,12 +81,16 @@ class PostsController extends AdminController
     public function edit($id = null)
     {
         // エンティティの作成
-        $post = $this->Posts->find('all', ['id' => $id])->first();
+        $post = $this->Posts->find('all', ['conditions' => ['id' => $id]])->first();
 
         // postの場合
         if ($this->request->is(['patch', 'post', 'put'])) {
             // 登録処理
             return $this->save_property($post);
+        } else {
+            $this->session->write('tmp_image', 'img/tmp/' . str_replace('storage/', '', $post->image_path));
+            copy('img/' . $post->image_path, $this->session->read('tmp_image'));
+            $post->image_path = Router::url('/' . $this->session->read('tmp_image'),  true);
         }
 
         // 画像のエラーメッセージ
@@ -308,6 +312,9 @@ class PostsController extends AdminController
             }
         }
 
+        if ($this->request->getParam('action') == 'edit') {
+        }
+
 
         // バリデーションカウントが0より多い場合、バリデーション失敗時の処理実行
         if ($errors > 0) {
@@ -383,8 +390,10 @@ class PostsController extends AdminController
 
     private function tmp_image_delete(): void
     {
-        if ($this->session->read('tmp_image')) {
-            unlink($this->session->read('tmp_image'));
+        if ($this->session->check('tmp_image')) {
+            if (file_exists(WWW_ROOT . $this->session->read('tmp_image'))) {
+                unlink($this->session->read('tmp_image'));
+            }
             $this->session->delete('tmp_image');
         }
     }
