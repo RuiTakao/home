@@ -112,10 +112,9 @@ class PostsController extends AdminController
      * 
      * バリデーション処理
      * 
-     * @param request
      * @param entity
      * 
-     * @return bool
+     * @return Response|bool
      */
     private function save_property($post)
     {
@@ -123,20 +122,13 @@ class PostsController extends AdminController
         // リクエストデータ取得
         $data = $this->request->getData();
 
-        // // バリデーション
-        // if ($this->validate($data, $post)) {
-        //     if ($this->request->getParam('action') == 'edit') {
-        //         $this->render('add');
-        //     }
-        //     $this->connection->rollback();
-        //     return;
-        // }
-
-        // 疑似的にバリデーション時の画像の動きを指定
-        // 後で消す
-        $data['image_path']->moveTo(WWW_ROOT . 'img/tmp/' . $data['image_path']->getClientFilename());
-        $this->session->write('tmp_image', 'img/tmp/' . $data['image_path']->getClientFilename());
-        $data['image_path'] = $this->session->read('tmp_image');
+        // バリデーション
+        if ($this->validate($data, $post)) {
+            if ($this->request->getParam('action') == 'edit') {
+                $this->render('add');
+            }
+            return;
+        }
 
         // urlフラグがfalseの場合
         if (!$data['url_flg']) {
@@ -160,6 +152,10 @@ class PostsController extends AdminController
             $data['image_path'] = ($data['image_flg']) ?
                 'storage/' . $post->id . '/' . str_replace('img/tmp/', '', $this->session->read('tmp_image')) :
                 'storage/' . $post->id . '/no-image.png';
+        } else {
+
+            // 画像パス
+            $data['image_path'] = $this->session->read('tmp_image');
         }
 
         try {
@@ -332,7 +328,6 @@ class PostsController extends AdminController
                     $data['image_path'] = null;
                     $errors++;
                 } else {
-                    // $this->session->write('tmp_image', 'img/tmp/' . $data['image_path']->getClientFilename());
                     $data['image_path'] = $this->session->read('tmp_image');
                 }
             } else if (!in_array(pathinfo($data['image_path']->getClientFilename())['extension'], self::EXTENSIONS)) {
