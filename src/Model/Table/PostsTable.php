@@ -56,26 +56,26 @@ class PostsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->maxLength('title', 150, '作品名は150文字以内で入力してください。')
-            ->notEmptyString('title', '作品名は必須です。');
+            ->maxLength('product_name', 150, '作品名は150文字以内で入力してください。')
+            ->notEmptyString('product_name', '作品名は必須です。');
 
         $validator
-            ->maxLength('body', 255, '作品名は255文字以内で入力してください。')
-            ->notEmptyString('body', '説明は必須です。');
+            ->maxLength('product_detail', 255, '作品名は255文字以内で入力してください。')
+            ->notEmptyString('product_detail', '説明は必須です。');
 
         $validator
             ->integer('url_flg')
             ->notEmptyString('url_flg');
 
         $validator
-            ->maxLength('url', 255)
-            ->url('url', 'URLを入力してください。', function ($context) {
+            ->maxLength('url_path', 255)
+            ->url('url_path', 'URLを入力してください。', function ($context) {
                 if ($context['data']['url_flg']) {
                     return true;
                 }
                 return false;
             })
-            ->notEmptyString('url', 'URLを入力してください。', function ($context) {
+            ->notEmptyString('url_path', 'URLを入力してください。', function ($context) {
                 if ($context['data']['url_flg']) {
                     return true;
                 }
@@ -87,8 +87,8 @@ class PostsTable extends Table
             ->notEmptyString('image_flg');
 
         $validator
-            ->maxLength('image_name', 255)
-            ->notEmptyString('image_name', '画像名を入力してください。', function ($context) {
+            ->maxLength('image_alt_name', 255)
+            ->notEmptyString('image_alt_name', '画像名を入力してください。', function ($context) {
                 if ($context['data']['image_flg']) {
                     return true;
                 }

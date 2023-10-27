@@ -1,12 +1,19 @@
 <?php
 
+use Cake\Routing\Router;
+
+if ($session->check('tmp_image')) {
+  $data_default_file = Router::url('/' . $session->read('tmp_image'),  true);
+} else {
+  $data_default_file = null;
+}
+
 /** formテンプレート設定 */
 $this->Form->setTemplates([
   'inputContainer' => '{{content}}',
   'submitContainer' => '{{content}}'
 ]);
 ?>
-
 
 <?php /** css読み込み */ ?>
 <?php $this->start('css') ?>
@@ -30,11 +37,11 @@ $this->Form->setTemplates([
   <table class="add_product_table">
     <tr class="add_product_table_row">
       <th class="add_product_table_head">
-        <label class="add_product_form_title c-pointer" for="title">作品名</label>
+        <label class="add_product_form_title c-pointer" for="product_name">作品名</label>
       </th>
       <td class="add_product_table_data">
-        <?= $this->Form->control('title', [
-          'id' => 'title',
+        <?= $this->Form->control('product_name', [
+          'id' => 'product_name',
           'class' => 'add_product_form_input text',
           'label' => false,
           'required' => false
@@ -43,11 +50,11 @@ $this->Form->setTemplates([
     </tr>
     <tr class="add_product_table_row">
       <th class="add_product_table_head">
-        <label class="add_product_form_title c-pointer" for="body">説明</label>
+        <label class="add_product_form_title c-pointer" for="product_detail">説明</label>
       </th>
       <td class="add_product_table_data pt32">
-        <?= $this->Form->control('body', [
-          'id' => 'body',
+        <?= $this->Form->control('product_detail', [
+          'id' => 'product_detail',
           'class' => 'add_product_form_input textarea',
           'label' => false,
           'required' => false
@@ -70,11 +77,11 @@ $this->Form->setTemplates([
     </tr>
     <tr id="url_input" class="add_product_table_row">
       <th class="add_product_table_head  pt32">
-        <label class="add_product_form_title c-pointer" for="url">ＵＲＬ</label>
+        <label class="add_product_form_title c-pointer" for="url_path">ＵＲＬ</label>
       </th>
       <td class="add_product_table_data  pt32">
-        <?= $this->Form->control('url', [
-          'id' => 'url',
+        <?= $this->Form->control('url_path', [
+          'id' => 'url_path',
           'class' => 'add_product_form_input text',
           'label' => false,
           'required' => false,
@@ -98,11 +105,11 @@ $this->Form->setTemplates([
     </tr>
     <tr id="image_name_input" class="add_product_table_row">
       <th class="add_product_table_head  pt32">
-        <label class="add_product_form_title c-pointer" for="image_name">画像名</label>
+        <label class="add_product_form_title c-pointer" for="image_alt_name">画像名</label>
       </th>
       <td class="add_product_table_data  pt32">
-        <?= $this->Form->control('image_name', [
-          'id' => 'image_name',
+        <?= $this->Form->control('image_alt_name', [
+          'id' => 'image_alt_name',
           'class' => 'add_product_form_input text',
           'label' => false,
           'required' => false,
@@ -115,14 +122,13 @@ $this->Form->setTemplates([
         <label class="add_product_form_title" for="image_path">画像</label>
       </th>
       <td class="add_product_table_data pt32">
-        <?php $p = $post->image_path ?>
         <?= $this->Form->control('image_path', [
           'class' => 'dropify',
           'type' => 'file',
           'label' => false,
           'required' => false,
           'div' => true,
-          'data-default-file' => $post->image_path
+          'data-default-file' => $data_default_file
         ]) ?>
         <?php if (!is_null($image_error)) : ?>
           <div class="error-message"><?= $image_error ?></div>

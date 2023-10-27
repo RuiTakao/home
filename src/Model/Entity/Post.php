@@ -31,15 +31,15 @@ class Post extends Entity
      */
     protected $_accessible = [
         'id' => true,
-        'title' => true,
-        'body' => true,
-        'image_path' => true,
-        'image_name' => true,
-        'image_flg' => true,
-        'url' => true,
+        'product_name' => true,
+        'product_detail' => true,
         'url_flg' => true,
-        'status' => true,
-        'post_order' => true,
+        'url_path' => true,
+        'image_flg' => true,
+        'image_alt_name' => true,
+        'image_path' => true,
+        'product_view_flg' => true,
+        'product_order' => true,
         'created' => true,
         'modified' => true,
     ];

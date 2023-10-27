@@ -23,10 +23,10 @@ class PostsController extends AppController
 
         $posts = $this->Posts->find()
             ->where([
-                'status' => true,
-                'post_order >' => 0
+                'product_view_flg' => true,
+                'product_order >' => 0
             ])
-            ->order(['post_order' => 'asc']);
+            ->order(['product_order' => 'asc']);
 
         $this->set(['posts' => $posts]);
     }

@@ -25,12 +25,10 @@ $this->Form->setTemplates([
         /** 画像の有り無し判定 */
         if ($post->image_flg) {
           $image_flg = true;
-          $image_path = h($post->image_path);
-          $image_name = h($post->image_name);
+          $image_alt_name = h($post->image_alt_name);
         } else {
           $image_flg = false;
-          $image_path = 'no-image.png';
-          $image_name = '画像無し';
+          $image_alt_name = '画像無し';
         }
         ?>
 
@@ -38,21 +36,21 @@ $this->Form->setTemplates([
           <div class="product js-productOrder flex justify-space-between c-pointer" draggable="true">
 
             <div class="product_detail_container">
-              <p class="product_title"><?= $post->title ?></p>
+              <p class="product_title"><?= $post->product_name ?></p>
               <?= $this->Form->radio('status[]' . $post->id, [
                 ['value' => 1, 'text' => '表示'],
                 ['value' => 0, 'text' => '非表示'],
               ], [
                 'class' => 'product_status c-pointer',
-                'value' => $post->status,
+                'value' => $post->product_view_flg,
                 'hiddenField' => false
               ]) ?>
               <?= $this->Form->hidden('product[]', ['value' => $post->id]) ?>
-              <?= $this->Form->hidden('order[]', ['value' => $post->post_order + 1]) ?>
+              <?= $this->Form->hidden('order[]', ['value' => $post->product_order + 1]) ?>
             </div>
 
             <div class="product_image_container">
-              <?= $this->Html->image($image_path, ['class' => 'product_image', 'alt' =>  $image_name]) ?>
+              <?= $this->Html->image(h($post->image_path), ['class' => 'product_image', 'alt' =>  $image_alt_name]) ?>
             </div>
 
           </div>

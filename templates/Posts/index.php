@@ -35,10 +35,10 @@
           /** 画像の有り無し判定 */
           if ($post->image_flg) {
             $image_path = h($post->image_path);
-            $image_name = $post->image_name;
+            $image_alt_name = $post->image_alt_name;
           } else {
             $image_path = 'no-image.png';
-            $image_name = '画像はありません';
+            $image_alt_name = '画像はありません';
           }
           ?>
 
@@ -47,17 +47,17 @@
 
             <?php /** 作品の画像 */ ?>
             <div class="product_image_container">
-              <?= $this->Html->image($image_path, ['class' => 'product_image', 'alt' => $image_name]) ?>
+              <?= $this->Html->image($image_path, ['class' => 'product_image', 'alt' => $image_alt_name]) ?>
             </div>
 
             <?php /** 作品の詳細 */ ?>
             <div class="product_detail_container">
-              <p class="product_title"><?= h($post->title) ?></p>
-              <p class="product_body mt16"><?= h($post->body) ?></p>
+              <p class="product_title"><?= h($post->product_name) ?></p>
+              <p class="product_body mt16"><?= h($post->product_detail) ?></p>
 
               <?php /** リンクの有り無し判定 */ ?>
               <?php if ($post->url_flg) : ?>
-                <?= $this->Html->link('アプリを見る', h($post->url), ['class' => 'product_access_btn btn info mt32', 'target' => '_blank']) ?>
+                <?= $this->Html->link('アプリを見る', h($post->url_path), ['class' => 'product_access_btn btn info mt32', 'target' => '_blank']) ?>
               <?php endif; ?>
             </div>
 
