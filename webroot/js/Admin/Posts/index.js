@@ -28,7 +28,6 @@ const getOrder = () => {
   productOrderList.forEach(productOrder => {
     if (!productOrder.classList.contains('js-dropZone')) {
       const index = [].slice.call(productOrderList).indexOf(productOrder)
-      console.log(index)
       productOrder.querySelector('input[name="order[]"]').setAttribute('value', index + 1)
     }
   })
@@ -69,6 +68,8 @@ const onDrop = e => {
 }
 
 /** actions */
+getOrder();
+
 contents.forEach(t => {
   t.addEventListener('dragstart', onDragStart);
   t.addEventListener('drag', onDrag);

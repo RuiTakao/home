@@ -369,21 +369,45 @@ class PostsController extends AdminController
         if ($this->request->is(['patch', 'post', 'put'])) {
 
             $data = $this->request->getData();
+            $session_data = $this->session->read('products_id');
+
+            // 異常系、データ数が合わない
+            if (count($data['product']) != count($session_data)) {
+                $this->session->write('message', '不正な動作が行われました。');
+                return $this->redirect(['action' => 'index']);
+            }
+            // 異常系、呼び出したデータとの相違
+            for ($i = 0; $i < count($session_data); $i++) {
+                if (!in_array($data['product'][$i], $session_data)) {
+                    $this->session->write('message', '不正な動作が行われました。');
+                    return $this->redirect(['action' => 'index']);
+                }
+            }
+
+            // 更新データ作成
+            $save_data = [];
+            foreach ($data['product'] as $index => $product) {
+                $save_data[] =  [
+                    'id' => $product,
+                    'product_order' => $data['order'][$index],
+                    'product_view_flg' => $data['status'][$index]
+                ];
+            }
+
+            // 更新用のエンティティ作成
+            $posts = $this->Posts->find();
 
             try {
                 $this->connection->begin();
 
-                // 行ロック
-                $this->Posts->find()->modifier('SQL_NO_CACHE')->epilog('FOR UPDATE');
+                // // 行ロック
+                $posts->modifier('SQL_NO_CACHE')->epilog('FOR UPDATE')->toArray();
 
-                foreach ($data['product'] as $index => $product) {
-                    //  検索
-                    $post = $this->Posts->find()->select(['id' => $product])->first();
-
-                    $post = $this->Posts->patchEntity($post, ['product_order' => $data['order'][$index], 'product_view_flg' => $data['status'][$index]]);
-                    if (!$this->Posts->save($post)) {
-                        throw new DatabaseException();
-                    }
+                // 一括更新
+                $posts = $this->Posts->patchEntities($posts, $save_data);
+                $posts = $this->Posts->saveMany($posts);
+                if (!$posts) {
+                    throw new DatabaseException();
                 }
 
                 $this->connection->commit();
@@ -400,6 +424,13 @@ class PostsController extends AdminController
         }
 
         $posts = $this->Posts->find()->order(['product_order' => 'asc']);
+        // post前post後でデータに相違が無いか判定するためのセッションデータ
+        $session_data = [];
+        foreach ($posts->toArray() as $post) {
+            $session_data[] = $post->id;
+        }
+        $this->session->write('products_id', $session_data);
+
         $this->set('posts', $posts);
     }
 

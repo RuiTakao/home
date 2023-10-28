@@ -56,6 +56,8 @@ $this->Form->setTemplates([
           </div>
         </li>
       <?php endforeach; ?>
+      <?php $this->Form->unlockField('product') ?>
+      <?php $this->Form->unlockField('order') ?>
       <li class="product_order_item js-dropZone"></li>
     </ul>
   </div>
